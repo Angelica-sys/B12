@@ -1,4 +1,4 @@
-import java.util.List;
+import com.google.gson.Gson;
 
 import static spark.Spark.*;
 
@@ -7,17 +7,23 @@ public class APIRunner {
     public static void main(String[] args) throws Exception {
         port(5000);
 
+        ConnectingToDatabase connectingToDatabase = new ConnectingToDatabase();
+
+        Gson gson = new Gson();
 
     //Get list of users
         get("/", (req, res) -> {
             return "Here is the list of users";
         });
     //Get user by id
-
         get("/:id", (req, res) -> {
-            return "Here is your user";
+
+            int id = Integer.parseInt(req.params(":id"));
+            User user = connectingToDatabase.fetchFromTableUser(id);
+            res.type("application/json");
+            return gson.toJson(user);
         });
-    //Get nutrition value for specific item
+        //Get nutrition value for specific item
 
     // get ("/:id, (req, res) -> {
         // return "Here is your requested food item"});
