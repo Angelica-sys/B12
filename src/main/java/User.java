@@ -8,13 +8,10 @@ import java.util.ArrayList;
  */
 public class User {
     public String name = "";
-    public ArrayList<FoodItem> fooditems = new ArrayList<FoodItem>();
+    public ArrayList<FoodItem> foodItems = new ArrayList<FoodItem>();
     public int totalAmountB12 = 0;
 
-
-    public User(){
-
-    }
+    public User(){}
 
     public String getName() {
         return name;
@@ -24,12 +21,12 @@ public class User {
         this.name = name;
     }
 
-    public ArrayList<FoodItem> getFooditems() {
-        return fooditems;
+    public ArrayList<FoodItem> getListOfFoodItem() {
+        return foodItems;
     }
 
-    public void setFooditems(ArrayList<FoodItem> fooditems) {
-        this.fooditems = fooditems;
+    public void addFoodItem(FoodItem foodItem) {
+        foodItems.add(foodItem);
     }
 
     public int getTotalAmountB12() {
