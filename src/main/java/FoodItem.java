@@ -1,3 +1,4 @@
+import java.util.HashMap;
 
 /**
  * FoodItem is a class that represents a FoodItem in the application
@@ -6,19 +7,17 @@
  * @version 1.0
  */
 public class FoodItem {
-    public String foodname = "";
-    public int b12inFoodItem = 0;
-    //Hashmap
+    public String foodname;
+    private int b12inFoodItem;
+    private HashMap<String, Integer> hash = new HashMap<String, Integer>();;
 
-    public FoodItem() {
+    public FoodItem() {}
 
-    }
-
-    public String getFoodname() {
+    public String getNameOfItem() {
         return foodname;
     }
 
-    public void setFoodname(String foodname) {
+    public void setNameOfItem(String foodname) {
         this.foodname = foodname;
     }
 
