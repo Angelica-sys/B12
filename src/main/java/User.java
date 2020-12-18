@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 
+/**
+ * User is a class that represents a user in the application
+ *
+ * @author Emma Svensson
+ * @version 1.0
+ */
 public class User {
     public String name = "";
     public ArrayList<FoodItem> fooditems = new ArrayList<FoodItem>();
