@@ -1,5 +1,7 @@
 import java.sql.*;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class connects to a database, creates tables, saves- and fetches data.
@@ -48,6 +50,36 @@ public class ConnectingToDatabase {
     }
 
     /**
+     * Fetches a list of all users.
+     *
+     * @return A list of users.
+     */
+    public List<User> fetchUserList() {
+        List<User> users = new ArrayList<User>();
+
+        try {
+            Statement statement = connection.createStatement();
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM users");
+            while (rs.next()) {
+                User user = new User();
+
+                user.id = rs.getInt("id");
+                user.name = rs.getString("name");
+                //Ska vi ha deras fooditems och näringsvärde här också?
+
+                users.add(user);
+            }
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+    /**
      * Adds data to a table.
      * @param user is a User-object that contains name of the user and FoodItem-objects.
      * @throws SQLException
@@ -65,6 +97,27 @@ public class ConnectingToDatabase {
             statement.executeUpdate(sql);
         }
         statement.close();
+    }
+
+    /**
+     * Updates an existing user.
+     *
+     * @param user A user object.
+     */
+    public void updateUser(User user) {
+        try {
+            Statement statement = connection.createStatement();
+
+            String sql = "UPDATE users SET id = " + user.id + ", "
+                    + "name = '" + user.name + "', "
+                    + "WHERE id = " + user.id + ";";
+
+            statement.executeUpdate(sql);
+
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -103,6 +156,23 @@ public class ConnectingToDatabase {
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE IF EXISTS '" + userName + "'");
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Deletes a user from the database.
+     *
+     * @param id The id of a user
+     */
+    public void deleteUser(int id) {
+        try {
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate("DELETE FROM users WHERE id = " + id);
+
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 public class User {
     public String name = "";
+    public int id = 0;
     public ArrayList<FoodItem> foodItems = new ArrayList<FoodItem>();
     public int totalAmountB12 = 0;
 
