@@ -1,6 +1,12 @@
 import java.sql.*;
 import java.sql.Connection;
 
+/**
+ * This class connects to a database, creates tables, saves- and fetches data.
+ *
+ * @author Carin Loven
+ * @version 1.0
+ */
 public class ConnectingToDatabase {
     Connection connection = null;
 
@@ -23,6 +29,11 @@ public class ConnectingToDatabase {
         }
     }
 
+    /**
+     * Creates a table in the database.
+     * @param user is a user-object that contains name of the user and FoodItem-objects.
+     * @throws SQLException
+     */
     public void createTableUser(User user) throws SQLException {
         String userName = user.getName();
         try {
@@ -36,6 +47,11 @@ public class ConnectingToDatabase {
         }
     }
 
+    /**
+     * Adds data to a table.
+     * @param user is a User-object that contains name of the user and FoodItem-objects.
+     * @throws SQLException
+     */
     public void addToTableUser(User user) throws SQLException {
         Statement statement = connection.createStatement();
         String userName = user.getName();
@@ -51,6 +67,12 @@ public class ConnectingToDatabase {
         statement.close();
     }
 
+    /**
+     * Fetches data from the database and creates a User-object to copulate the data.
+     * @param u is a User-object that contains name of the table to fetch data from.
+     * @return user, the creates object.
+     * @throws SQLException
+     */
     public User fetchFromTableUser(User u) throws SQLException {
         User user = new User();
         String userName = u.getName();
@@ -72,6 +94,10 @@ public class ConnectingToDatabase {
         return user;
     }
 
+    /**
+     * Deletes a table in the database.
+     * @param user is a User-object that contains name of the table to delete.
+     */
     public void deleteTableUser(User user) {
         String userName = user.getName();
         try {
@@ -83,6 +109,9 @@ public class ConnectingToDatabase {
         }
     }
 
+    /**
+     * Closes connection to database.
+     */
     public void closeConnection() {
         try {
             connection.close();
