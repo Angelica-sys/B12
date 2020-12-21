@@ -1,5 +1,10 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Calendar;
 
 /**
  * In APICache we create a cache to store Livsmedelsverkets API every time a
@@ -10,32 +15,62 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
  */
 public class APICache {
     private FoodItemContainer foodItemObjectInMemory;
+    private String url;
+    private StringBuffer content;
+    private String dataAsXML;
 
-    public APICache() throws JsonProcessingException {
-        FetchDataFromLivsmedelsverket(); //detta var enligt Johans kod
-        //jag tänker vi borde kalla på invalidateCache() istället ???
+    public APICache (){
+        content = new StringBuffer();
+        fetchFromAPI();
+        // deserialization();
     }
 
     /**
      * Gets data from Livsmedelsverket and saves it in local memory.
      */
-    private void FetchDataFromLivsmedelsverket() throws JsonProcessingException {
+    public void fetchFromAPI() {
+        Calendar calendar = Calendar.getInstance();
+        url = ("http://www7.slv.se/apilivsmedel/LivsmedelService.svc/Livsmedel/Naringsvarde/"
+                + calendar.get(Calendar.YEAR) + (calendar.get(Calendar.MONTH) + 1) + calendar.get(Calendar.DATE));
+        System.out.println(url);
 
-        // Hämta data från extern tjänst, från livsmedelsverket
-        String dataAsXML = "";
+        try {
+            URL urlConnection = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) urlConnection.openConnection();
+            con.setRequestMethod("GET");
+            int status = con.getResponseCode();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            dataAsXML = content.toString();
+            in.close();
+            con.disconnect();
+            System.out.println(dataAsXML);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        XmlMapper xmlMapper = new XmlMapper();
-        FoodItemContainer foodItemContainer
-                = xmlMapper.readValue(dataAsXML, FoodItemContainer.class);
-        foodItemObjectInMemory = foodItemContainer;
+    private void deserialization() {
+        try {
+            XmlMapper xmlMapper = new XmlMapper();
+            FoodItemContainer foodItemContainer
+                    = xmlMapper.readValue(dataAsXML, FoodItemContainer.class);
+            foodItemObjectInMemory = foodItemContainer;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public FoodItem getFoodObject(int index) {
         return foodItemObjectInMemory.getFoodItemObject(index);
     }
 
-    public void invalidateCache() throws JsonProcessingException {
-        FetchDataFromLivsmedelsverket();
+    public static void main(String[] args){
+        APICache cache = new APICache();
     }
 }
 
