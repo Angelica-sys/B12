@@ -1,4 +1,8 @@
 import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static spark.Spark.*;
 
@@ -11,10 +15,29 @@ public class APIRunner {
 
         Gson gson = new Gson();
 
+       /* get("/front", (req, res) -> {
+            return new PebbleTemplateEngine().render(
+                    new ModelAndView(null, "templates/index.html"));
+        });  */
+
+
     //Get list of users
         get("/", (req, res) -> {
-            return "Here is the list of users";
+            List<User> users = ConnectingToDatabase.fetchUserList();
+
+            ArrayList<Map> userList = new ArrayList<Map>();
+
+            for (User user : users) {
+                Map map = new HashMap();
+                map.put("id", user.id);
+                map.put("name", user.name);
+                map.put("details", "http://localhost:5000/" + user.id);
+                userList.add(map);
+            }
+            res.type("application/json");
+            return gson.toJson(userList);
         });
+
     //Get user by id
         get("/:id", (req, res) -> {
 
@@ -30,18 +53,30 @@ public class APIRunner {
 
 
         post("/", (req, res) -> {
-
-            return "You have registered a user";
+            try {
+                User user = gson.fromJson(req.body(), User.class);
+                connectingToDatabase.addToTableUser(user);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return "";
         });
-        put("/:id", (req, res) -> {
+      /*  put("/:id", (req, res) -> {
 
-            return "You have updated you users nutrition list";
+            try {
+                User user = gson.fromJson(req.body(), User.class);
+                user.id = Integer.parseInt(req.params("id"));
+                connectingToDatabase.updateUserInformation(user);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return "";
 
-        });
+        });*/
 
         delete("/:id", (req, res) -> {
-
-            return "You have deleted a user";
+            connectingToDatabase.deleteTableUser(Integer.parseInt(req.params("id")));
+            return "";
         });
 
         //delete (/:id, (req, res) ->{
