@@ -23,7 +23,7 @@ public class APIRunner {
 
     //Get list of users
         get("/", (req, res) -> {
-            List<User> users = ConnectingToDatabase.fetchUserList();
+            List<User> users = connectingToDatabase.fetchUserList();
 
             ArrayList<Map> userList = new ArrayList<Map>();
 
