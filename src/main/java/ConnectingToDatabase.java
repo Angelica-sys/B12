@@ -33,16 +33,18 @@ public class ConnectingToDatabase {
 
     /**
      * Creates a table in the database.
-     * @param user is a user-object that contains name of the user and FoodItem-objects.
      * @throws SQLException
      */
-    public void createTableUser(User user) throws SQLException {
-        String userName = user.getName();
+    public void createTables() throws SQLException {
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE IF EXISTS '" + userName + "'");
-            statement.executeUpdate("CREATE TABLE " + userName
-                    + "(FoodItems TEXT, B12 INTEGER)");
+            statement.executeUpdate("DROP TABLE IF EXISTS users");
+            statement.executeUpdate("CREATE TABLE users"
+                    + "(id INTEGER PRIMARY KEY , username TEXT)");
+            // IDENTITY(1,1)
+            statement.executeUpdate("DROP TABLE IF EXISTS userEats");
+            statement.executeUpdate("CREATE TABLE userEats"
+                    + "(id INTEGER, foodItem TEXT, b12 REAL, FOREIGN KEY(id) REFERENCES users(id))");
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,26 +58,20 @@ public class ConnectingToDatabase {
      */
     public List<User> fetchUserList() {
         List<User> users = new ArrayList<User>();
-
         try {
             Statement statement = connection.createStatement();
-
             ResultSet rs = statement.executeQuery("SELECT * FROM users");
             while (rs.next()) {
                 User user = new User();
-
                 user.id = rs.getInt("id");
-                user.name = rs.getString("name");
+                user.name = rs.getString("username");
                 //Ska vi ha deras fooditems och näringsvärde här också?
-
                 users.add(user);
             }
-
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return users;
     }
 
@@ -84,17 +80,32 @@ public class ConnectingToDatabase {
      * @param user is a User-object that contains name of the user and FoodItem-objects.
      * @throws SQLException
      */
-    public void addToTableUser(User user) throws SQLException {
+    public void addToTableUsers(User user) throws SQLException {
         Statement statement = connection.createStatement();
         String userName = user.getName();
+        int id = user.getId();
+
+        String sql1 = "INSERT INTO users (id, username)"
+                + "VALUES ("
+                + id + ", "
+                + "'" + userName + "');";
+        statement.executeUpdate(sql1);
+        statement.close();
+    }
+
+    public void addToTableUserEat(User user) throws SQLException {
+        Statement statement = connection.createStatement();
+        String userName = user.getName();
+        int id = user.getId();
         for (FoodItem item : user.getListOfFoodItem()) {
             String itemName = item.getNameOfItem();
-            int b12 = item.getB12inFoodItem();
-            String sql = "INSERT INTO '" + userName + "'(FoodItems, B12) "
-                    + "VALUES ('"
-                    + itemName + "', "
-                    + "" + b12 + ");";
-            statement.executeUpdate(sql);
+            float b12 = item.getB12inFoodItem();
+            String sql2 = "INSERT INTO userEats (id, foodItem, b12)"
+                    + "VALUES ("
+                    + id + ", "
+                    + "'" + itemName + "' "
+                    + b12 + ");";
+            statement.executeUpdate(sql2);
         }
         statement.close();
     }
