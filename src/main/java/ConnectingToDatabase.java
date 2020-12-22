@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * This class connects to a database, creates tables, saves- and fetches data.
  *
- * @author Carin Loven
+ * @author Carin Loven, Emma Svensson
  * @version 1.0
  */
 public class ConnectingToDatabase {
