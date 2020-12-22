@@ -1,39 +1,70 @@
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class main_DB {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        String Username = "Sven";
-
+        String Username = "Sven ";
+        int id = 0;
         FoodItem item1 = new FoodItem();
         item1.setNameOfItem("äpple");
         item1.setB12inFoodItem(33);
-
         FoodItem item2 = new FoodItem();
         item2.setNameOfItem("päron");
         item2.setB12inFoodItem(2);
-
         FoodItem item3 = new FoodItem();
         item3.setNameOfItem("banan");
         item3.setB12inFoodItem(99);
 
         User user = new User();
         user.setName(Username);
+        user.setId(id);
         user.addFoodItem(item1);
         user.addFoodItem(item2);
         user.addFoodItem(item3);
 
-        ConnectingToDatabase connectingToDatabase = new ConnectingToDatabase();
-        connectingToDatabase.createTableUser(user);
+        String Username1 = "Emma";
+        int id1 = 1;
+        FoodItem item4 = new FoodItem();
+        item1.setNameOfItem("p");
+        item1.setB12inFoodItem(33);
+        FoodItem item5 = new FoodItem();
+        item2.setNameOfItem("r");
+        item2.setB12inFoodItem(2);
+        FoodItem item6 = new FoodItem();
+        item3.setNameOfItem("t");
+        item3.setB12inFoodItem(99);
 
-        connectingToDatabase.addToTableUser(user);
+        User user99 = new User();
+        user99.setName(Username1);
+        user99.setId(id1);
+        user99.addFoodItem(item4);
+        user99.addFoodItem(item5);
+        user99.addFoodItem(item6);
+
+        ConnectingToDatabase connectingToDatabase = new ConnectingToDatabase();
+        connectingToDatabase.createTables();
+        connectingToDatabase.addToTableUsers(user);
+        connectingToDatabase.addToTableUserEat(user);
+        connectingToDatabase.addToTableUsers(user99);
+        connectingToDatabase.addToTableUserEat(user99);
+
+        for (User user3 : connectingToDatabase.fetchUserList()) {
+            System.out.print(user3.getName());
+            System.out.println();
+            System.out.print(user3.getId());
+            System.out.println();
+        }
+
+        /*
         User p = connectingToDatabase.fetchFromTableUser(user);
 
         String name1 = p.getName();
         System.out.println("Name: " + name1);
         for (FoodItem item : p.getListOfFoodItem()) {
             String itemName = item.getNameOfItem();
-            int b12 = item.getB12inFoodItem();
+            float b12 = item.getB12inFoodItem();
             System.out.println(itemName + ", " + b12);
         }
 
@@ -53,14 +84,14 @@ public class main_DB {
         item7.setB12inFoodItem(87);
         u.addFoodItem(item7);
 
-        connectingToDatabase.addToTableUser(u);
+        connectingToDatabase.addToTableUsers(u);
 
         User p1 = connectingToDatabase.fetchFromTableUser(user);
         String name2 = p1.getName();
         System.out.println("Name: " + name2);
         for (FoodItem item : p1.getListOfFoodItem()) {
             String itemName = item.getNameOfItem();
-            int b12 = item.getB12inFoodItem();
+            float b12 = item.getB12inFoodItem();
             System.out.println(itemName + ", " + b12);
         }
 
@@ -70,9 +101,11 @@ public class main_DB {
         String name3 = p2.getName();
         for (FoodItem item : p2.getListOfFoodItem()) {
             String itemName = item.getNameOfItem();
-            int b12 = item.getB12inFoodItem();
+            float b12 = item.getB12inFoodItem();
             System.out.println(itemName + ", " + b12);
         }
+
+         */
         connectingToDatabase.closeConnection();
     }
 }
