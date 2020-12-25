@@ -3,22 +3,22 @@ import java.util.HashMap;
 /**
  * FoodItem is a class that represents a FoodItem in the application
  *
- * @author Emma Svensson
+ * @author Emma Svensson, Carin Loven
  * @version 1.0
  */
 public class FoodItem {
-    public String foodname;
+    public String foodName;
     private float b12inFoodItem;
     private HashMap<String, Integer> hash = new HashMap<String, Integer>();;
 
     public FoodItem() {}
 
-    public String getNameOfItem() {
-        return foodname;
+    public void setNameOfItem(String foodName) {
+        this.foodName = foodName;
     }
 
-    public void setNameOfItem(String foodname) {
-        this.foodname = foodname;
+    public String getNameOfItem() {
+        return foodName;
     }
 
     public float getB12inFoodItem() {
