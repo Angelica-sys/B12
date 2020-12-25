@@ -1,10 +1,15 @@
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class main_DB {
+/**
+ * Test class for ConnectionToDatabas, APICache
+ * @author Carin Loven
+ * @version 1.0
+ */
+public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        APICache cache = new APICache();
+        /*
         String Username = "Sven ";
         int id = 0;
         FoodItem item1 = new FoodItem();
@@ -56,8 +61,6 @@ public class main_DB {
             System.out.print(user3.getId());
             System.out.println();
         }
-
-        /*
         User p = connectingToDatabase.fetchFromTableUser(user);
 
         String name1 = p.getName();
@@ -104,8 +107,7 @@ public class main_DB {
             float b12 = item.getB12inFoodItem();
             System.out.println(itemName + ", " + b12);
         }
-
-         */
         connectingToDatabase.closeConnection();
+         */
     }
 }

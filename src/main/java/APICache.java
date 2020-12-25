@@ -1,13 +1,18 @@
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
- * In APICache we create a cache to store Livsmedelsverkets API every time a
+ * Cache memory to store data from Livsmedelsverkets API every time a
  * klient connects, to keep it updated.
  *
  * @author Emma Svensson, Carin Loven
@@ -18,15 +23,21 @@ public class APICache {
     private String url;
     private StringBuffer content;
     private String dataAsXML;
+    private LivsmedelDataset container;
+    private HashMap<String, FoodItem> foodItem;
 
-    public APICache (){
+    public APICache() {
+        foodItem = new HashMap<String, FoodItem>();
         content = new StringBuffer();
         fetchFromAPI();
-        // deserialization();
+        deserialization();
+        createFoodItemObject();
+        //print();
     }
 
     /**
-     * Gets data from Livsmedelsverket and saves it in local memory.
+     * Fetches the XML data, from Livsmedelsverkets API, as StringBuffer. Converts the data
+     * to a regular String and saves the data locally in variable dataAsXML.
      */
     public void fetchFromAPI() {
         Calendar calendar = Calendar.getInstance();
@@ -48,32 +59,70 @@ public class APICache {
             dataAsXML = content.toString();
             in.close();
             con.disconnect();
-            System.out.println(dataAsXML);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Unmarshals the XML to an executable Java object. The unmarshalling process
+     * contains the five classes:
+     * LivsmedelDataset --> LivsmedelsList --> Livsmedel --> Naringsvarden --> Narigsvarde
+     */
     private void deserialization() {
         try {
-            XmlMapper xmlMapper = new XmlMapper();
-            FoodItemContainer foodItemContainer
-                    = xmlMapper.readValue(dataAsXML, FoodItemContainer.class);
-            foodItemObjectInMemory = foodItemContainer;
-        } catch (Exception e) {
+            JacksonXmlModule jacksonXmlModule = new JacksonXmlModule();
+            jacksonXmlModule.setDefaultUseWrapper(false);
+            ObjectMapper xmlMapper = new XmlMapper(jacksonXmlModule);
+            container = xmlMapper.readValue(dataAsXML, LivsmedelDataset.class);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public FoodItem getFoodObject(int index) {
-        return foodItemObjectInMemory.getFoodItemObject(index);
+    /**
+     * Creates FoodItem, containing name of the item and amount of the vitamin b12.
+     * Adds the FoodItem to an HashMap.
+     */
+    //This method does not work...
+    public void createFoodItemObject() {
+        LivsmedelsLista lista = container.getLivsmedelsLista();
+        for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
+            FoodItem item = new FoodItem();
+            item.setNameOfItem(livsmedel.getNamn());
+            System.out.println(livsmedel.getNamn());
+            Naringsvarden naring = livsmedel.getNaringsvarden();
+            for (Naringsvarde naringsvarde : naring.getListOfNaringsvarde()) {
+                System.out.println(naringsvarde.getNamn());
+                if (naringsvarde.getForkortning() == "VitB12") {
+                    item.setB12inFoodItem(Integer.parseInt(naringsvarde.getVarde()));
+                    System.out.println(" " + naringsvarde.getVarde());
+                }
+            }
+            foodItem.put(item.getNameOfItem(), item);
+        }
     }
 
-    public static void main(String[] args){
-        APICache cache = new APICache();
+    /**
+     * Fetches a requested FoodItem.
+     * @param name name of the FoodItem.
+     * @return
+     */
+    public FoodItem getFoodItem(String name) {
+        return foodItem.get(name);
+    }
+
+    /**
+     * Prints all "Näringsvärden".
+     */
+    public void print() {
+        LivsmedelsLista lista = container.getLivsmedelsLista();
+        for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
+            System.out.println(livsmedel.getNamn());
+            Naringsvarden naring = livsmedel.getNaringsvarden();
+            for (Naringsvarde food : naring.getListOfNaringsvarde()) {
+                System.out.println("Innehåller " + food.getNamn() + ": " + food.getVarde());
+            }
+        }
     }
 }
-
-
-
-
