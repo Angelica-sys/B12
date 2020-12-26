@@ -52,4 +52,6 @@ public class Naringsvarde {
     public String getVarde() {
         return varde;
     }
+
+    public String getUnit (){ return enhet; }
 }

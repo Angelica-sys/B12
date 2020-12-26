@@ -1,4 +1,6 @@
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Test class for ConnectionToDatabas, APICache
