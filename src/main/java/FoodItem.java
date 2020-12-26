@@ -25,7 +25,7 @@ public class FoodItem {
         return b12inFoodItem;
     }
 
-    public void setB12inFoodItem(int b12inFoodItem) {
+    public void setB12inFoodItem(float b12inFoodItem) {
         this.b12inFoodItem = b12inFoodItem;
     }
 }

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -84,19 +86,18 @@ public class APICache {
      * Creates FoodItem, containing name of the item and amount of the vitamin b12.
      * Adds the FoodItem to an HashMap.
      */
-    //This method does not work...
     public void createFoodItemObject() {
         LivsmedelsLista lista = container.getLivsmedelsLista();
         for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
             FoodItem item = new FoodItem();
             item.setNameOfItem(livsmedel.getNamn());
-            System.out.println(livsmedel.getNamn());
+            System.out.println(item.getNameOfItem());
             Naringsvarden naring = livsmedel.getNaringsvarden();
             for (Naringsvarde naringsvarde : naring.getListOfNaringsvarde()) {
-                System.out.println(naringsvarde.getNamn());
-                if (naringsvarde.getForkortning() == "VitB12") {
-                    item.setB12inFoodItem(Integer.parseInt(naringsvarde.getVarde()));
-                    System.out.println(" " + naringsvarde.getVarde());
+                String str = "Vitamin B12";
+                if (naringsvarde.getNamn().equals(str)) {
+                    String replace = naringsvarde.getVarde().replace(",", ".");
+                    item.setB12inFoodItem(Float.parseFloat(replace));
                 }
             }
             foodItem.put(item.getNameOfItem(), item);
