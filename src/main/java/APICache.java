@@ -17,7 +17,7 @@ import java.util.HashMap;
  * Cache memory to store data from Livsmedelsverkets API every time a
  * klient connects, to keep it updated.
  *
- * @author Emma Svensson, Carin Loven
+ * @author Emma Svensson, Carin Loven, Angelica Asplund
  * @version 1.0
  */
 public class APICache {
