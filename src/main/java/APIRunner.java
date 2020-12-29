@@ -7,7 +7,7 @@ import static spark.Spark.*;
 
 /**
  *
- * @author Angelica Asplund
+ * @author Angelica Asplund, Emma Svensson
  * @version 1.0
  */
 
