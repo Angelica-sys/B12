@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * This class connects to a database, creates tables, saves- and fetches data.
  *
- * @author Carin Loven, Emma Svensson
+ * @author Carin Loven, Emma Svensson, Angelica Asplund
  * @version 1.0
  */
 public class ConnectingToDatabase {
@@ -40,14 +40,17 @@ public class ConnectingToDatabase {
             Statement statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE IF EXISTS users");
             statement.executeUpdate("CREATE TABLE users"
-                    + "(id INTEGER PRIMARY KEY , username TEXT)");
+                    + "(id INTEGER PRIMARY KEY autoincrement , username TEXT)");
             // IDENTITY(1,1)
             statement.executeUpdate("DROP TABLE IF EXISTS userEats");
             statement.executeUpdate("CREATE TABLE userEats"
-                    + "(id INTEGER, foodItem TEXT, b12 REAL, FOREIGN KEY(id) REFERENCES users(id))");
+                    + "(id INTEGER autoincrement, foodItem TEXT, b12 REAL, FOREIGN KEY(id) REFERENCES users(id))");
+
+
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
+
         }
     }
 
@@ -66,6 +69,7 @@ public class ConnectingToDatabase {
                 user.id = rs.getInt("id");
                 user.name = rs.getString("username");
                 //Ska vi ha deras fooditems och näringsvärde här också?
+                user.totalAmountB12 = rs.getInt("totalAmountB12");
                 users.add(user);
             }
             statement.close();
