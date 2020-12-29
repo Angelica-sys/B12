@@ -42,7 +42,7 @@ public class APIRunner {
         get("/:id", (req, res) -> {
 
             int id = Integer.parseInt(req.params(":id"));
-            User user = connectingToDatabase.fetchFromTableUser(id);
+            User user = connectingToDatabase.fetchFromTableUser(new User(Integer.parseInt(req.params(":id"))));
             res.type("application/json");
             return gson.toJson(user);
         });
@@ -55,7 +55,7 @@ public class APIRunner {
         post("/", (req, res) -> {
             try {
                 User user = gson.fromJson(req.body(), User.class);
-                connectingToDatabase.addToTableUser(user);
+                connectingToDatabase.addToTableUsers(user);
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -75,7 +75,7 @@ public class APIRunner {
         });*/
 
         delete("/:id", (req, res) -> {
-            connectingToDatabase.deleteTableUser(Integer.parseInt(req.params("id")));
+            connectingToDatabase.deleteTableUser(new User(Integer.parseInt(req.params(":id"))));
             return "";
         });
 
