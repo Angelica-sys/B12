@@ -3,8 +3,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static spark.Spark.*;
+
+/**
+ *
+ * @author Angelica Asplund
+ * @version 1.0
+ */
 
 public class APIRunner {
 
