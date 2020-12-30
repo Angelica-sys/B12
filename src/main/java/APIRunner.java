@@ -45,9 +45,8 @@ public class APIRunner {
 
     //Get user by id
         get("/:id", (req, res) -> {
-
             int id = Integer.parseInt(req.params(":id"));
-            User user = connectingToDatabase.fetchFromTableUser(new User(Integer.parseInt(req.params(":id"))));
+            User user = connectingToDatabase.fetchFromTableUser(id);
             res.type("application/json");
             return gson.toJson(user);
         });
@@ -80,8 +79,10 @@ public class APIRunner {
         });*/
 
         delete("/:id", (req, res) -> {
-            connectingToDatabase.deleteTableUser(new User(Integer.parseInt(req.params(":id"))));
-            return "";
+            int id = Integer.parseInt(req.params(":id"));
+            connectingToDatabase.deleteUser(id);
+            res.type("application/json");
+            return gson.toJson("user has been deleted");
         });
 
         //delete (/:id, (req, res) ->{
