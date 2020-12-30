@@ -137,13 +137,13 @@ public class ConnectingToDatabase {
 
     /**
      * Fetches data from the database and creates a User-object to copulate the data.
-     * @param u is a User-object that contains name of the table to fetch data from.
+     * @param id is a User-object that contains name of the table to fetch data from.
      * @return user, the creates object.
      * @throws SQLException
      */
-    public User fetchFromTableUser(User u) throws SQLException {
+    public User fetchFromTableUser(int id) throws SQLException {
         User user = new User();
-        String userName = u.getName();
+        String userName = user.getName();
         user.setName(userName);
         try {
             Statement statement = connection.createStatement();
