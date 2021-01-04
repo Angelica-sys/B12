@@ -22,7 +22,7 @@ public class APIRunner {
 
 
     //Get list of users
-        get("/", (req, res) -> {
+        get("/users/", (req, res) -> {
             List<User> users = connectingToDatabase.fetchUserList();
 
             ArrayList<Map> userList = new ArrayList<Map>();
@@ -39,8 +39,12 @@ public class APIRunner {
         });
 
     //Get user by id
+<<<<<<< Updated upstream
         get("/:id", (req, res) -> {
 
+=======
+        get("/users/id/", (req, res) -> {
+>>>>>>> Stashed changes
             int id = Integer.parseInt(req.params(":id"));
             User user = connectingToDatabase.fetchFromTableUser(id);
             res.type("application/json");
@@ -52,7 +56,7 @@ public class APIRunner {
         // return "Here is your requested food item"});
 
 
-        post("/", (req, res) -> {
+        post("/users/", (req, res) -> {
             try {
                 User user = gson.fromJson(req.body(), User.class);
                 connectingToDatabase.addToTableUser(user);
