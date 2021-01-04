@@ -3,8 +3,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static spark.Spark.*;
+
+/**
+ *
+ * @author Angelica Asplund, Emma Svensson
+ * @version 1.0
+ */
 
 public class APIRunner {
 
@@ -22,7 +27,7 @@ public class APIRunner {
 
 
     //Get list of users
-        get("/users/", (req, res) -> {
+        get("/", (req, res) -> {
             List<User> users = connectingToDatabase.fetchUserList();
 
             ArrayList<Map> userList = new ArrayList<Map>();
@@ -39,12 +44,7 @@ public class APIRunner {
         });
 
     //Get user by id
-<<<<<<< Updated upstream
         get("/:id", (req, res) -> {
-
-=======
-        get("/users/id/", (req, res) -> {
->>>>>>> Stashed changes
             int id = Integer.parseInt(req.params(":id"));
             User user = connectingToDatabase.fetchFromTableUser(id);
             res.type("application/json");
@@ -56,10 +56,10 @@ public class APIRunner {
         // return "Here is your requested food item"});
 
 
-        post("/users/", (req, res) -> {
+        post("/", (req, res) -> {
             try {
                 User user = gson.fromJson(req.body(), User.class);
-                connectingToDatabase.addToTableUser(user);
+                connectingToDatabase.addToTableUsers(user);
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -79,8 +79,10 @@ public class APIRunner {
         });*/
 
         delete("/:id", (req, res) -> {
-            connectingToDatabase.deleteTableUser(Integer.parseInt(req.params("id")));
-            return "";
+            int id = Integer.parseInt(req.params(":id"));
+            connectingToDatabase.deleteUser(id);
+            res.type("application/json");
+            return gson.toJson("user has been deleted");
         });
 
         //delete (/:id, (req, res) ->{
