@@ -40,11 +40,11 @@ public class ConnectingToDatabase {
             Statement statement = connection.createStatement();
             statement.executeUpdate("DROP TABLE IF EXISTS users");
             statement.executeUpdate("CREATE TABLE users"
-                    + "(id INTEGER PRIMARY KEY autoincrement , username TEXT)");
+                    + "(id INTEGER PRIMARY KEY  , username TEXT)");
             // IDENTITY(1,1)
             statement.executeUpdate("DROP TABLE IF EXISTS userEats");
             statement.executeUpdate("CREATE TABLE userEats"
-                    + "(id INTEGER autoincrement, foodItem TEXT, b12 REAL, FOREIGN KEY(id) REFERENCES users(id))");
+                    + "(id INTEGER, foodItem TEXT, b12 REAL, FOREIGN KEY(id) REFERENCES users(id))");
 
 
             statement.close();
@@ -68,7 +68,7 @@ public class ConnectingToDatabase {
                 User user = new User();
                 user.id = rs.getInt("id");
                 user.name = rs.getString("username");
-                //Ska vi ha deras fooditems och näringsvärde här också?
+                //TODO Ska vi ha deras fooditems och näringsvärde här också?
                 user.totalAmountB12 = rs.getInt("totalAmountB12");
                 users.add(user);
             }
@@ -104,7 +104,7 @@ public class ConnectingToDatabase {
         for (FoodItem item : user.getListOfFoodItem()) {
             String itemName = item.getNameOfItem();
             float b12 = item.getB12inFoodItem();
-            String sql2 = "INSERT INTO userEats (id, foodItem, b12)"
+            String sql2 = "INSERT INTO userEats (id, foodItem, b12) "
                     + "VALUES ("
                     + id + ", "
                     + "'" + itemName + "' "

@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -44,10 +41,11 @@ public class APICache {
     public void fetchFromAPI() {
         Calendar calendar = Calendar.getInstance();
         url = ("http://www7.slv.se/apilivsmedel/LivsmedelService.svc/Livsmedel/Naringsvarde/"
-                + calendar.get(Calendar.YEAR) + (calendar.get(Calendar.MONTH) + 1) + calendar.get(Calendar.DATE));
+                + calendar.get(Calendar.YEAR) + "0" + (calendar.get(Calendar.MONTH) + 1) + 0 + calendar.get(Calendar.DATE));
         System.out.println(url);
 
         try {
+
             URL urlConnection = new URL(url);
             HttpURLConnection con = (HttpURLConnection) urlConnection.openConnection();
             con.setRequestMethod("GET");
@@ -91,7 +89,7 @@ public class APICache {
         for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
             FoodItem item = new FoodItem();
             item.setNameOfItem(livsmedel.getNamn());
-            System.out.println(item.getNameOfItem());
+          //  System.out.println(item.getNameOfItem());
             Naringsvarden naring = livsmedel.getNaringsvarden();
             for (Naringsvarde naringsvarde : naring.getListOfNaringsvarde()) {
                 String str = "Vitamin B12";

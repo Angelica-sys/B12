@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         APICache cache = new APICache();
-        /*
+
         String Username = "Sven ";
         int id = 0;
         FoodItem item1 = new FoodItem();
@@ -57,13 +57,13 @@ public class Main {
         connectingToDatabase.addToTableUsers(user99);
         connectingToDatabase.addToTableUserEat(user99);
 
-        for (User user3 : connectingToDatabase.fetchUserList()) {
-            System.out.print(user3.getName());
+        for (User users : connectingToDatabase.fetchUserList()) {
+            System.out.print(users.getName());
             System.out.println();
-            System.out.print(user3.getId());
+            System.out.print(users.getId());
             System.out.println();
         }
-        User p = connectingToDatabase.fetchFromTableUser(user);
+        User p = connectingToDatabase.fetchFromTableUser(1);
 
         String name1 = p.getName();
         System.out.println("Name: " + name1);
@@ -76,14 +76,14 @@ public class Main {
         User u = new User();
         u.setName(Username);
 
-        FoodItem item5 = new FoodItem();
-        item5.setNameOfItem("macka");
-        item5.setB12inFoodItem(1);
-        u.addFoodItem(item5);
-        FoodItem item6 = new FoodItem();
-        item6.setNameOfItem("kaviar");
-        item6.setB12inFoodItem(32);
-        u.addFoodItem(item6);
+        FoodItem item8 = new FoodItem();
+        item8.setNameOfItem("macka");
+        item8.setB12inFoodItem(1);
+        u.addFoodItem(item8);
+        FoodItem item9 = new FoodItem();
+        item9.setNameOfItem("kaviar");
+        item9.setB12inFoodItem(32);
+        u.addFoodItem(item9);
         FoodItem item7 = new FoodItem();
         item7.setNameOfItem("ägg");
         item7.setB12inFoodItem(87);
@@ -91,7 +91,7 @@ public class Main {
 
         connectingToDatabase.addToTableUsers(u);
 
-        User p1 = connectingToDatabase.fetchFromTableUser(user);
+        User p1 = connectingToDatabase.fetchFromTableUser(2);
         String name2 = p1.getName();
         System.out.println("Name: " + name2);
         for (FoodItem item : p1.getListOfFoodItem()) {
@@ -102,14 +102,15 @@ public class Main {
 
         connectingToDatabase.deleteTableUser(user);
 
-        User p2 = connectingToDatabase.fetchFromTableUser(user);
+        User p2 = connectingToDatabase.fetchFromTableUser(2);
         String name3 = p2.getName();
+        System.out.println("Name: " + name3);
         for (FoodItem item : p2.getListOfFoodItem()) {
             String itemName = item.getNameOfItem();
             float b12 = item.getB12inFoodItem();
             System.out.println(itemName + ", " + b12);
         }
         connectingToDatabase.closeConnection();
-         */
+
     }
 }

@@ -20,6 +20,7 @@ public class APIRunner {
 
         Gson gson = new Gson();
 
+        //TODO Behövs detta?
        /* get("/front", (req, res) -> {
             return new PebbleTemplateEngine().render(
                     new ModelAndView(null, "templates/index.html"));
@@ -27,7 +28,7 @@ public class APIRunner {
 
 
     //Get list of users
-        get("/", (req, res) -> {
+        get("/users/", (req, res) -> {
             List<User> users = connectingToDatabase.fetchUserList();
 
             ArrayList<Map> userList = new ArrayList<Map>();
@@ -44,19 +45,20 @@ public class APIRunner {
         });
 
     //Get user by id
-        get("/:id", (req, res) -> {
-            int id = Integer.parseInt(req.params(":id"));
+        get("/users/id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));   //todo Behövs :id?
             User user = connectingToDatabase.fetchFromTableUser(id);
             res.type("application/json");
             return gson.toJson(user);
         });
-        //Get nutrition value for specific item
+
+        //TODO Get nutrition value for specific item, ska det vara här med egen get, eller i metoderna i connectingToDatabase?
 
     // get ("/:id, (req, res) -> {
         // return "Here is your requested food item"});
 
-
-        post("/", (req, res) -> {
+        /*
+        post("/users", (req, res) -> {
             try {
                 User user = gson.fromJson(req.body(), User.class);
                 connectingToDatabase.addToTableUsers(user);
@@ -64,22 +66,39 @@ public class APIRunner {
                 System.out.println(e);
             }
             return "";
+        });  */
+
+        post("/users/", (req, res) -> {
+            User user = new User();
+            connectingToDatabase.addToTableUsers(user);
+            res.type("application/json");
+            return gson.toJson("user is created");
         });
-      /*  put("/:id", (req, res) -> {
+
+        /*
+        put("/users/id", (req, res) -> {
 
             try {
                 User user = gson.fromJson(req.body(), User.class);
                 user.id = Integer.parseInt(req.params("id"));
-                connectingToDatabase.updateUserInformation(user);
+                connectingToDatabase.updateUser(user);
             } catch (Exception e) {
                 System.out.println(e);
             }
             return "";
 
-        });*/
+        }); */
 
-        delete("/:id", (req, res) -> {
-            int id = Integer.parseInt(req.params(":id"));
+        put("/users/id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));  //todo Behövs :id?
+            User user = new User();
+            connectingToDatabase.updateUser(user);
+            res.type("application/json");
+            return gson.toJson("unicorn has been updated");
+        });
+
+        delete("/users/id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));   //todo Behövs :id?
             connectingToDatabase.deleteUser(id);
             res.type("application/json");
             return gson.toJson("user has been deleted");
