@@ -38,38 +38,109 @@ public class ConnectingToDatabase {
     public void createTables() throws SQLException {
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE IF EXISTS users");
-            statement.executeUpdate("CREATE TABLE users"
-                    + "(id INTEGER PRIMARY KEY  , username TEXT)");
-            // IDENTITY(1,1)
-            statement.executeUpdate("DROP TABLE IF EXISTS userEats");
-            statement.executeUpdate("CREATE TABLE userEats"
-                    + "(id INTEGER, foodItem TEXT, b12 REAL, FOREIGN KEY(id) REFERENCES users(id))");
+            statement.executeUpdate("DROP TABLE IF EXISTS user");
+            statement.executeUpdate("CREATE TABLE user"
+                    + "(id INTEGER PRIMARY KEY, user_name TEXT)");
 
-
+            statement.executeUpdate("DROP TABLE IF EXISTS item");
+            statement.executeUpdate("CREATE TABLE item"
+                    + "(date DATETIME DEFAULT CURRENT_TIMESTAMP PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 FLOAT, " +
+                    "FOREIGN KEY(user_id) REFERENCES user(id))");
+            // , PRIMARY KEY(item_name, user_id)
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-
         }
     }
 
     /**
+     * Adds data to a table.
+     * @param user is a User-object that contains name of the user and FoodItem-objects.
+     * @throws SQLException
+     */
+    public void addToTableUser(User user) throws SQLException {
+        Statement statement = connection.createStatement();
+        String userName = user.getName();
+        int id = user.getId();
+        String sql1 = "INSERT INTO user (id, user_name)"
+                + "VALUES ("
+                + id + ", "
+                + "'" + userName + "');";
+        statement.executeUpdate(sql1);
+        statement.close();
+    }
+
+    public void addToTableItem(User user) throws SQLException {
+
+        Statement statement = connection.createStatement();
+        int id = user.getId();
+        for (FoodItem item : user.getListOfFoodItem()) {
+            String itemName = item.getNameOfItem();
+            float b12 = item.getB12inFoodItem();
+            String sql2 = "INSERT INTO item (item_name, user_id, b12) "
+                    + "VALUES ('"
+                    + itemName + "', "
+                    + id + ", "
+                    + b12 + ");";
+            statement.executeUpdate(sql2);
+        }
+        statement.close();
+    }
+
+    /**
+     * Updates an existing user.
+     * @param user A user object.
+     */
+    public void updateUser(User user) {
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "UPDATE user SET id = " + user.id + ", "
+                    + "user_name = '" + user.name + "', "
+                    + "WHERE id = " + user.id + ";";
+            statement.executeUpdate(sql);
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public User fetchFromTableItem(int id) throws SQLException {
+        User user = new User();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet response = statement.executeQuery("SELECT * FROM item " +
+                    "WHERE user_id = " + id + "");
+            while (response.next()) {
+                FoodItem item = new FoodItem();
+                item.setNameOfItem(response.getString("item_name"));
+                item.setB12inFoodItem(response.getInt("b12"));
+                user.addFoodItem(item);
+            }
+            statement.executeQuery("SELECT * FROM user " +
+                    "WHERE id = " + id + "");
+            String name = response.getString("user_name");
+            user.setName(name);
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println("No column with user_id " + id);
+            // e.printStackTrace();
+        }
+        return user;
+    }
+
+    /**
      * Fetches a list of all users.
-     *
      * @return A list of users.
      */
     public List<User> fetchUserList() {
         List<User> users = new ArrayList<User>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM users");
+            ResultSet rs = statement.executeQuery("SELECT * FROM user");
             while (rs.next()) {
                 User user = new User();
                 user.id = rs.getInt("id");
-                user.name = rs.getString("username");
-                //TODO Ska vi ha deras fooditems och näringsvärde här också?
-                user.totalAmountB12 = rs.getInt("totalAmountB12");
+                user.name = rs.getString("user_name");
                 users.add(user);
             }
             statement.close();
@@ -79,98 +150,21 @@ public class ConnectingToDatabase {
         return users;
     }
 
-    /**
-     * Adds data to a table.
-     * @param user is a User-object that contains name of the user and FoodItem-objects.
-     * @throws SQLException
-     */
-    public void addToTableUsers(User user) throws SQLException {
-        Statement statement = connection.createStatement();
-        String userName = user.getName();
-        int id = user.getId();
-
-        String sql1 = "INSERT INTO users (id, username)"
-                + "VALUES ("
-                + id + ", "
-                + "'" + userName + "');";
-        statement.executeUpdate(sql1);
-        statement.close();
-    }
-
-    public void addToTableUserEat(User user) throws SQLException {
-        Statement statement = connection.createStatement();
-        String userName = user.getName();
-        int id = user.getId();
-        for (FoodItem item : user.getListOfFoodItem()) {
-            String itemName = item.getNameOfItem();
-            float b12 = item.getB12inFoodItem();
-            String sql2 = "INSERT INTO userEats (id, foodItem, b12) "
-                    + "VALUES ("
-                    + id + ", "
-                    + "'" + itemName + "' "
-                    + b12 + ");";
-            statement.executeUpdate(sql2);
-        }
-        statement.close();
-    }
-
-    /**
-     * Updates an existing user.
-     *
-     * @param user A user object.
-     */
-    public void updateUser(User user) {
+    public void deleteUsersAllItem(int id) {
         try {
             Statement statement = connection.createStatement();
-
-            String sql = "UPDATE users SET id = " + user.id + ", "
-                    + "name = '" + user.name + "', "
-                    + "WHERE id = " + user.id + ";";
-
-            statement.executeUpdate(sql);
-
+            statement.executeUpdate("DELETE FROM item WHERE user_id = " + id + "");
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Fetches data from the database and creates a User-object to copulate the data.
-     * @param id is a User-object that contains name of the table to fetch data from.
-     * @return user, the creates object.
-     * @throws SQLException
-     */
-    public User fetchFromTableUser(int id) throws SQLException {
-        User user = new User();
-        String userName = user.getName();
-        user.setName(userName);
+    public void deleteItem(int id, String item_name) {
         try {
             Statement statement = connection.createStatement();
-            ResultSet response = statement.executeQuery("SELECT * FROM '" + userName + "'");
-            while (response.next()) {
-                FoodItem item = new FoodItem();
-                item.setNameOfItem(response.getString("FoodItems"));
-                item.setB12inFoodItem(response.getInt("B12"));
-                user.addFoodItem(item);
-            }
-            statement.close();
-        } catch (SQLException e) {
-            System.out.println("No " + userName + " Table");
-            // e.printStackTrace();
-        }
-        return user;
-    }
-
-    /**
-     * Deletes a table in the database.
-     * @param user is a User-object that contains name of the table to delete.
-     */
-    public void deleteTableUser(User user) {
-        String userName = user.getName();
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE IF EXISTS '" + userName + "'");
+            statement.executeUpdate("DELETE FROM item WHERE user_id = " + id + " AND "
+                    + "item_name = '" + item_name + "'");
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -179,15 +173,13 @@ public class ConnectingToDatabase {
 
     /**
      * Deletes a user from the database.
-     *
      * @param id The id of a user
      */
     public void deleteUser(int id) {
+        deleteUsersAllItem(id);
         try {
             Statement statement = connection.createStatement();
-
-            statement.executeUpdate("DELETE FROM users WHERE id = " + id);
-
+            statement.executeUpdate("DELETE FROM user WHERE id = " + id);
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
