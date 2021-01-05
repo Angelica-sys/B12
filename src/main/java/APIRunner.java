@@ -66,11 +66,22 @@ public class APIRunner {
         });  */
 
         post("/users/", (req, res) -> {
-            User user = new User();
-            connectingToDatabase.addToTableUser(user);
-            res.type("application/json");
-            return gson.toJson("user is created");
+            try {
+                User user = gson.fromJson(req.body(), User.class);
+                System.out.println("user: " + user.getName());
+                connectingToDatabase.addToTableUser(user);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return "";
         });
+
+        /*
+        User user = new User();
+        connectingToDatabase.addToTableUser(user);
+        res.type("application/json");
+        return gson.toJson("user is created");
+         */
 
         /*
         put("/users/id", (req, res) -> {
@@ -84,12 +95,12 @@ public class APIRunner {
             return "";
         }); */
 
-        put("/users/id", (req, res) -> {
-            int id = Integer.parseInt(req.params("id"));  //todo Behövs :id?
-            User user = new User();
+        put("/users/:id", (req, res) -> {
+            int id = Integer.parseInt(req.params("id"));
+            User user = gson.fromJson(req.body(), User.class);
             connectingToDatabase.updateUser(user);
             res.type("application/json");
-            return gson.toJson("unicorn has been updated");
+            return gson.toJson("foodItem has been updated");
         });
 
         delete("/users/id", (req, res) -> {
