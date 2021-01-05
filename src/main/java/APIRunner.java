@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,10 +15,13 @@ import static spark.Spark.*;
 public class APIRunner {
     private ConnectingToDatabase connectingToDatabase;
 
-    public APIRunner(ConnectingToDatabase connectingToDatabase) throws ClassNotFoundException {
+    public APIRunner(ConnectingToDatabase connectingToDatabase, APICache cache) throws ClassNotFoundException {
         this.connectingToDatabase = connectingToDatabase;
         port(5000);
-        Gson gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(User.class, new UserDeserializer(cache));
+        Gson gson = gsonBuilder.create();
+        System.out.println("Hello");
 
         //TODO Behövs detta?
        /* get("/front", (req, res) -> {
@@ -73,7 +77,7 @@ public class APIRunner {
             } catch (Exception e) {
                 System.out.println(e);
             }
-            return "";
+            return "POST";
         });
 
         /*
@@ -98,6 +102,7 @@ public class APIRunner {
         put("/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             User user = gson.fromJson(req.body(), User.class);
+            System.out.println("user: " + user.getName());
             connectingToDatabase.updateUser(user);
             res.type("application/json");
             return gson.toJson("foodItem has been updated");

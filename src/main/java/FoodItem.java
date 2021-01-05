@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class FoodItem {
     public String foodName;
     private float b12inFoodItem;
-    private HashMap<String, Integer> hash = new HashMap<String, Integer>();;
+    private HashMap<String, Integer> hash = new HashMap<String, Integer>();
 
     public FoodItem() {}
 

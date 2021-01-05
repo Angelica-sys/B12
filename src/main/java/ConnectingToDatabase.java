@@ -71,7 +71,6 @@ public class ConnectingToDatabase {
     }
 
     public void addToTableItem(User user) throws SQLException {
-
         Statement statement = connection.createStatement();
         int id = user.getId();
         for (FoodItem item : user.getListOfFoodItem()) {
