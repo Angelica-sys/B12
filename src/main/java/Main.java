@@ -19,20 +19,21 @@ public class Main {
     private String dataAsJSON;
 
     public Main() throws ClassNotFoundException {
-        //cache = new Test_APICaching();
+        cache = new APICache();
         connectingToDatabase = new ConnectingToDatabase();
-        api = new APIRunner(connectingToDatabase);
+        api = new APIRunner(connectingToDatabase, cache);
         // connectingToDatabase.closeConnection();
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Main m = new Main();
-        m.testDataBase();
+        //m.testDataBase();
         //m.tryGETusers();
-        m.tryPOSTUser();
+       // m.tryPOSTUser();
     }
 
     private void testDataBase() throws SQLException {
+        /*
         String Username = "Sven ";
         int id = 0;
         FoodItem item1 = new FoodItem();
@@ -90,17 +91,13 @@ public class Main {
         user3.addFoodItem(item7);
         user3.addFoodItem(item8);
         user3.addFoodItem(item9);
-         */
+
 
         connectingToDatabase.createTables();
         connectingToDatabase.addToTableUser(user);
         connectingToDatabase.addToTableItem(user);
 
-        /*
-        connectingToDatabase.addToTableUser(user99);
-        connectingToDatabase.addToTableItem(user99);
-        connectingToDatabase.addToTableUser(user3);
-        connectingToDatabase.addToTableItem(user3);
+
 
         for (User users : connectingToDatabase.fetchUserList()) {
             System.out.print(users.getName());
