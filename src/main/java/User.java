@@ -7,10 +7,10 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class User {
-    public String name = "";
-    public int id = 0;
+    public String name;
+    public int id;
     public ArrayList<FoodItem> foodItems = new ArrayList<FoodItem>();
-    public int totalAmountB12 = 0;
+    public int totalAmountB12;
 
     public User(){}
 

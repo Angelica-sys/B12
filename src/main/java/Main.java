@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
@@ -27,7 +28,8 @@ public class Main {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         Main m = new Main();
         m.testDataBase();
-        m.tryGETusers();
+        //m.tryGETusers();
+        m.tryPOSTUser();
     }
 
     private void testDataBase() throws SQLException {
@@ -194,7 +196,6 @@ public class Main {
             System.out.println(dataAsJSON);
             in.close();
             con.disconnect();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -202,13 +203,26 @@ public class Main {
 
     public void tryPOSTUser() {
         url = ("http://localhost:5000/users/");
+        String name = "name";
+        String name1 = "Carin";
+        String id = "id";
+        String id2 = "2";
+        String b12 = "b12";
+        String b121 = "0";
         try {
             URL urlConnection = new URL(url);
             HttpURLConnection con = (HttpURLConnection) urlConnection.openConnection();
             con.setRequestMethod("POST");
             int status = con.getResponseCode();
             System.out.println(status);
-
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            String jsonInputString = "{"+name+":"+name1+", "+id+":"+id2+"}";
+            try(OutputStream os = con.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+            con.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
