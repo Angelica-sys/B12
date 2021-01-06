@@ -10,9 +10,11 @@ import java.util.List;
  * @version 1.0
  */
 public class ConnectingToDatabase {
+    private int count;
     Connection connection = null;
 
     public ConnectingToDatabase() throws ClassNotFoundException {
+        count = 0;
         Class.forName("org.sqlite.JDBC");
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:b12.db");
@@ -44,7 +46,8 @@ public class ConnectingToDatabase {
 
             statement.executeUpdate("DROP TABLE IF EXISTS item");
             statement.executeUpdate("CREATE TABLE item"
-                    + "(date DATETIME DEFAULT CURRENT_TIMESTAMP PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 FLOAT, " +
+                    // date DATETIME DEFAULT CURRENT_TIMESTAMP
+                    + "(surregate_key INTEGER PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 FLOAT, " +
                     "FOREIGN KEY(user_id) REFERENCES user(id))");
             // , PRIMARY KEY(item_name, user_id)
             statement.close();
@@ -72,12 +75,14 @@ public class ConnectingToDatabase {
 
     public void addToTableItem(User user) throws SQLException {
         Statement statement = connection.createStatement();
+
         int id = user.getId();
         for (FoodItem item : user.getListOfFoodItem()) {
+            count++;
             String itemName = item.getNameOfItem();
             float b12 = item.getB12inFoodItem();
-            String sql2 = "INSERT INTO item (item_name, user_id, b12) "
-                    + "VALUES ('"
+            String sql2 = "INSERT INTO item (surregate_key, item_name, user_id, b12) "
+                    + "VALUES (" + count + ", '"
                     + itemName + "', "
                     + id + ", "
                     + b12 + ");";

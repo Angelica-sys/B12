@@ -12,58 +12,45 @@ import java.sql.SQLException;
  * @version 1.0
  */
 public class Main {
-    private String url;
-    private ConnectingToDatabase connectingToDatabase;
-    private APICache cache;
-    private APIRunner api;
-    private String dataAsJSON;
 
-    public Main() throws ClassNotFoundException {
-        cache = new APICache();
-        connectingToDatabase = new ConnectingToDatabase();
-        api = new APIRunner(connectingToDatabase, cache);
-        // connectingToDatabase.closeConnection();
-    }
+    public Main() throws ClassNotFoundException {}
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        Main m = new Main();
-        //m.testDataBase();
-        //m.tryGETusers();
-       // m.tryPOSTUser();
-    }
+        APICache cache = new APICache();
+        ConnectingToDatabase connectingToDatabase = new ConnectingToDatabase();
+        connectingToDatabase.createTables();
+        APIRunner api = new APIRunner(connectingToDatabase, cache);
+        // connectingToDatabase.closeConnection();
 
-    private void testDataBase() throws SQLException {
-        /*
         String Username = "Sven ";
         int id = 0;
         FoodItem item1 = new FoodItem();
         item1.setNameOfItem("äpple");
         item1.setB12inFoodItem(33);
-        User user = new User();
-        user.setName(Username);
-        user.setId(id);
-        user.addFoodItem(item1);
-
-        /*
         FoodItem item2 = new FoodItem();
         item2.setNameOfItem("päron");
         item2.setB12inFoodItem(2);
         FoodItem item3 = new FoodItem();
         item3.setNameOfItem("banan");
         item3.setB12inFoodItem(99);
+
+        User user = new User();
+        user.setName(Username);
+        user.setId(id);
+        user.addFoodItem(item1);
         user.addFoodItem(item2);
         user.addFoodItem(item3);
 
         String Username1 = "Emma";
         int id1 = 1;
         FoodItem item4 = new FoodItem();
-        item4.setNameOfItem("päron");
+        item4.setNameOfItem("glass");
         item4.setB12inFoodItem(33);
         FoodItem item5 = new FoodItem();
-        item5.setNameOfItem("p");
+        item5.setNameOfItem("godis");
         item5.setB12inFoodItem(2);
         FoodItem item6 = new FoodItem();
-        item6.setNameOfItem("t");
+        item6.setNameOfItem("chips");
         item6.setB12inFoodItem(99);
 
         User user99 = new User();
@@ -73,6 +60,7 @@ public class Main {
         user99.addFoodItem(item5);
         user99.addFoodItem(item6);
 
+        /*
         String Username2 = "Angelica";
         int id2 = 2;
         FoodItem item7 = new FoodItem();
@@ -89,139 +77,20 @@ public class Main {
         user3.setName(Username2);
         user3.setId(id2);
         user3.addFoodItem(item7);
-        user3.addFoodItem(item8);
-        user3.addFoodItem(item9);
+     //   user3.addFoodItem(item8);
+     //   user3.addFoodItem(item9);
 
+ */
 
-        connectingToDatabase.createTables();
+      //  connectingToDatabase.createTables();
         connectingToDatabase.addToTableUser(user);
         connectingToDatabase.addToTableItem(user);
-
-
-
-        for (User users : connectingToDatabase.fetchUserList()) {
-            System.out.print(users.getName());
-            System.out.println();
-            System.out.print(users.getId());
-            System.out.println();
-        }
-
-        User p = connectingToDatabase.fetchFromTableItem(1);
-        for (FoodItem item : p.getListOfFoodItem()) {
-            String itemName = item.getNameOfItem();
-            float b12 = item.getB12inFoodItem();
-            System.out.println(itemName + ", " + b12);
-        }
+        connectingToDatabase.addToTableUser(user99);
+        connectingToDatabase.addToTableItem(user99);
         /*
-
-        connectingToDatabase.deleteUsersAllItem(1);
-        connectingToDatabase.deleteUser(1);
-        connectingToDatabase.deleteItem(2, "rttt");
-
-        /*
-        User p1 = connectingToDatabase.fetchFromTableItem(2);
-        System.out.println("Name: " + p1.getName());
-        for (FoodItem item : p1.getListOfFoodItem()) {
-            String itemName = item.getNameOfItem();
-            float b12 = item.getB12inFoodItem();
-            System.out.println(itemName + ", " + b12);
-        }
-
-        for (User users : connectingToDatabase.fetchUserList()) {
-            System.out.print(users.getName());
-            System.out.println();
-            System.out.print(users.getId());
-            System.out.println();
-        }
-
-
-        User u = new User();
-        u.setName(Username);
-
-        FoodItem item8 = new FoodItem();
-        item8.setNameOfItem("macka");
-        item8.setB12inFoodItem(1);
-        u.addFoodItem(item8);
-        FoodItem item9 = new FoodItem();
-        item9.setNameOfItem("kaviar");
-        item9.setB12inFoodItem(32);
-        u.addFoodItem(item9);
-        FoodItem item7 = new FoodItem();
-        item7.setNameOfItem("ägg");
-        item7.setB12inFoodItem(87);
-        u.addFoodItem(item7);
-
-        connectingToDatabase.addToTableUsers(u);
-
-        User p1 = connectingToDatabase.fetchFromTableUser(2);
-        String name2 = p1.getName();
-        System.out.println("Name: " + name2);
-        for (FoodItem item : p1.getListOfFoodItem()) {
-            String itemName = item.getNameOfItem();
-            float b12 = item.getB12inFoodItem();
-            System.out.println(itemName + ", " + b12);
-        }
-
-        User p2 = connectingToDatabase.fetchFromTableUser(2);
-        String name3 = p2.getName();
-        System.out.println("Name: " + name3);
-        for (FoodItem item : p2.getListOfFoodItem()) {
-            String itemName = item.getNameOfItem();
-            float b12 = item.getB12inFoodItem();
-            System.out.println(itemName + ", " + b12);
-        }
+        connectingToDatabase.addToTableUser(user3);
+        connectingToDatabase.addToTableItem(user3);
 
          */
-    }
-
-    public void tryGETusers() {
-        url = ("http://localhost:5000/users/");
-        //url = ("http://localhost:5000/users/0");
-        System.out.println(url);
-        try {
-            URL urlConnection = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) urlConnection.openConnection();
-            con.setRequestMethod("GET");
-            int status = con.getResponseCode();
-            System.out.println(status);
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                dataAsJSON = inputLine;
-            }
-            System.out.println(dataAsJSON);
-            in.close();
-            con.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void tryPOSTUser() {
-        url = ("http://localhost:5000/users/");
-        String name = "name";
-        String name1 = "Carin";
-        String id = "id";
-        String id2 = "2";
-        String b12 = "b12";
-        String b121 = "0";
-        try {
-            URL urlConnection = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) urlConnection.openConnection();
-            con.setRequestMethod("POST");
-            int status = con.getResponseCode();
-            System.out.println(status);
-            con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setRequestProperty("Accept", "application/json");
-            String jsonInputString = "{"+name+":"+name1+", "+id+":"+id2+"}";
-            try(OutputStream os = con.getOutputStream()) {
-                byte[] input = jsonInputString.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-            con.disconnect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
