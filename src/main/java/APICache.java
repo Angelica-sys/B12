@@ -28,10 +28,10 @@ public class APICache {
     public APICache() {
         foodItem = new HashMap<String, FoodItem>();
         content = new StringBuffer();
-        //fetchFromAPI();
+        fetchFromAPI();
         deserialization();
         createFoodItemObject();
-        //print();
+        // print();
     }
 
     /**
@@ -54,18 +54,15 @@ public class APICache {
                     new InputStreamReader(con.getInputStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                System.out.println(inputLine);
                 content.append(inputLine);
             }
             dataAsXML = content.toString();
-            System.out.println(dataAsXML);
             in.close();
             con.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Done");
-
+        System.out.println("Finish caching");
     }
 
     /**
@@ -78,77 +75,8 @@ public class APICache {
             JacksonXmlModule jacksonXmlModule = new JacksonXmlModule();
             jacksonXmlModule.setDefaultUseWrapper(false);
             ObjectMapper xmlMapper = new XmlMapper(jacksonXmlModule);
-            container = xmlMapper.readValue("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                    "<LivsmedelDataset>\n" +
-                    "   <Version>2020-01-16T13:15:00.9</Version>\n" +
-                    "   <LivsmedelsLista>\n" +
-                    "      <Livsmedel>\n" +
-                    "         <Naringsvarden>\n" +
-                    "            <Naringsvarde>\n" +
-                    "               <Namn>Vitamin B6</Namn>\n" +
-                    "               <Forkortning>VitB6</Forkortning>\n" +
-                    "               <Varde>0,020</Varde>\n" +
-                    "               <Enhet>mg</Enhet>\n" +
-                    "               <SenastAndrad>2006-01-09T14:02:41.247</SenastAndrad>\n" +
-                    "               <Vardetyp>Bästa skattning</Vardetyp>\n" +
-                    "               <Ursprung>Livsmedelstabell</Ursprung>\n" +
-                    "               <Publikation>SLV&lt; eller1986</Publikation>\n" +
-                    "               <Framtagningsmetod>Överfört från likvärdigt livsmedel</Framtagningsmetod>\n" +
-                    "            </Naringsvarde>\n" +
-                    "            <Naringsvarde>\n" +
-                    "               <Namn>Folat</Namn>\n" +
-                    "               <Forkortning>Folat</Forkortning>\n" +
-                    "               <Varde>1,0</Varde>\n" +
-                    "               <Enhet>µg</Enhet>\n" +
-                    "               <SenastAndrad>2006-01-09T14:02:41.247</SenastAndrad>\n" +
-                    "               <Vardetyp>Bästa skattning</Vardetyp>\n" +
-                    "               <Ursprung>Livsmedelstabell</Ursprung>\n" +
-                    "               <Publikation>SLV&lt; eller1986</Publikation>\n" +
-                    "               <Framtagningsmetod>Överfört från likvärdigt livsmedel</Framtagningsmetod>\n" +
-                    "            </Naringsvarde>\n" +
-                    "            <Naringsvarde>\n" +
-                    "               <Namn>Socker totalt</Namn>\n" +
-                    "               <Forkortning>Mono/disack</Forkortning>\n" +
-                    "               <Varde>0,0</Varde>\n" +
-                    "               <Enhet>g</Enhet>\n" +
-                    "               <SenastAndrad>2017-03-01T10:01:36.42</SenastAndrad>\n" +
-                    "               <Vardetyp>Logisk nolla</Vardetyp>\n" +
-                    "               <Ursprung>Annat ursprung</Ursprung>\n" +
-                    "               <Publikation>SLV - Riktlinjer för livsmedel</Publikation>\n" +
-                    "               <Metodtyp>Skattat från ingrediensförteckning</Metodtyp>\n" +
-                    "               <Framtagningsmetod>Skattat logisk slutledning</Framtagningsmetod>\n" +
-                    "               <Referenstyp>Rapport</Referenstyp>\n" +
-                    "            </Naringsvarde>\n" +
-                    "            <Naringsvarde>\n" +
-                    "               <Namn>Fullkorn totalt</Namn>\n" +
-                    "               <Forkortning>Fullk/tot</Forkortning>\n" +
-                    "               <Varde>0</Varde>\n" +
-                    "               <Enhet>g</Enhet>\n" +
-                    "               <SenastAndrad>2010-06-21T13:41:49.363</SenastAndrad>\n" +
-                    "               <Vardetyp>Bästa skattning</Vardetyp>\n" +
-                    "               <Ursprung>Värde framtaget med eget system</Ursprung>\n" +
-                    "               <Publikation>SLV - Riktlinjer för livsmedel</Publikation>\n" +
-                    "               <Metodtyp>Skattat från ingrediensförteckning</Metodtyp>\n" +
-                    "               <Framtagningsmetod>Summering av beståndsdelar</Framtagningsmetod>\n" +
-                    "               <Referenstyp>Rapport</Referenstyp>\n" +
-                    "            </Naringsvarde>\n" +
-                    "            <Naringsvarde>\n" +
-                    "               <Namn>Salt</Namn>\n" +
-                    "               <Forkortning>NaCl</Forkortning>\n" +
-                    "               <Varde>0,03</Varde>\n" +
-                    "               <Enhet>g</Enhet>\n" +
-                    "               <SenastAndrad>2010-06-21T13:41:49.363</SenastAndrad>\n" +
-                    "               <Vardetyp>Bästa skattning</Vardetyp>\n" +
-                    "               <Ursprung>Värde framtaget med eget system</Ursprung>\n" +
-                    "               <Publikation>SLV - Riktlinjer för livsmedel</Publikation>\n" +
-                    "               <Metodtyp>Salt beräknat från natrium (totalt)</Metodtyp>\n" +
-                    "               <Framtagningsmetod>Beräknad, omräkningsfaktor inkluderad</Framtagningsmetod>\n" +
-                    "               <Referenstyp>Rapport</Referenstyp>\n" +
-                    "            </Naringsvarde>\n" +
-                    "         </Naringsvarden>\n" +
-                    "      </Livsmedel>\n" +
-                    "   </LivsmedelsLista>\n" +
-                    "</LivsmedelDataset>", LivsmedelDataset.class);
+            container = xmlMapper.readValue(dataAsXML, LivsmedelDataset.class);
+            System.out.println("Finish unmarchling");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -163,7 +91,6 @@ public class APICache {
         for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
             FoodItem item = new FoodItem();
             item.setNameOfItem(livsmedel.getNamn());
-            //  System.out.println(item.getNameOfItem());
             Naringsvarden naring = livsmedel.getNaringsvarden();
             for (Naringsvarde naringsvarde : naring.getListOfNaringsvarde()) {
                 String str = "Vitamin B12";
@@ -193,10 +120,12 @@ public class APICache {
         LivsmedelsLista lista = container.getLivsmedelsLista();
         for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
             System.out.println(livsmedel.getNamn());
+            /*
             Naringsvarden naring = livsmedel.getNaringsvarden();
             for (Naringsvarde food : naring.getListOfNaringsvarde()) {
                 System.out.println("Innehåller " + food.getNamn() + ": " + food.getVarde());
             }
+             */
         }
     }
 }
