@@ -76,7 +76,7 @@ public class APICache {
             jacksonXmlModule.setDefaultUseWrapper(false);
             ObjectMapper xmlMapper = new XmlMapper(jacksonXmlModule);
             container = xmlMapper.readValue(dataAsXML, LivsmedelDataset.class);
-            System.out.println("Finish unmarchling");
+            System.out.println("Finish unmarshalling");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -120,12 +120,8 @@ public class APICache {
         LivsmedelsLista lista = container.getLivsmedelsLista();
         for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
             System.out.println(livsmedel.getNamn());
-            /*
-            Naringsvarden naring = livsmedel.getNaringsvarden();
-            for (Naringsvarde food : naring.getListOfNaringsvarde()) {
-                System.out.println("Innehåller " + food.getNamn() + ": " + food.getVarde());
-            }
-             */
+            FoodItem item = foodItem.get(livsmedel.getNamn());
+            System.out.println(item.getB12inFoodItem());
         }
     }
 }

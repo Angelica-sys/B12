@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 public class FoodItem {
     public String foodName;
-    private float b12inFoodItem;
+    private double b12inFoodItem;
     private HashMap<String, Integer> hash = new HashMap<String, Integer>();
 
     public FoodItem() {}
@@ -21,11 +21,11 @@ public class FoodItem {
         return foodName;
     }
 
-    public float getB12inFoodItem() {
+    public double getB12inFoodItem() {
         return b12inFoodItem;
     }
 
-    public void setB12inFoodItem(float b12inFoodItem) {
+    public void setB12inFoodItem(double b12inFoodItem) {
         this.b12inFoodItem = b12inFoodItem;
     }
 }
