@@ -37,7 +37,7 @@ public class APIRunner {
                 Map map = new HashMap();
                 map.put("id", user.id);
                 map.put("name", user.name);
-               // map.put("details", "http://localhost:5000/" + user.id);
+                // map.put("details", "http://localhost:5000/" + user.id);
                 //TODO Varför behövs denna?
                 userList.add(map);
             }
@@ -51,9 +51,11 @@ public class APIRunner {
             List<FoodItem> users = user.getListOfFoodItem();
             ArrayList<Map> foodItem = new ArrayList<Map>();
             for (FoodItem item : users) {
+                String B12 = Double.toString(item.getB12inFoodItem());
+                String b12 = B12.replace(".", ",");
                 Map map = new HashMap();
                 map.put("foodItem", item.getNameOfItem());
-                map.put("b12", item.getB12inFoodItem());
+                map.put("b12", b12);
                 foodItem.add(map);
             }
             res.type("application/json");
@@ -74,12 +76,13 @@ public class APIRunner {
         post("/users/", (req, res) -> {
             try {
                 User user = gson1.fromJson(req.body(), User.class);
-                System.out.println("user: " + user.getName() + user.getId());
+                System.out.println("user: " + user.getName() + " " + user.getId());
                 connectingToDatabase.addToTableUser(user);
             } catch (Exception e) {
                 System.out.println(e);
+                return 404;
             }
-            return "POST";
+            return 200;
         });
 
         /*
@@ -105,6 +108,9 @@ public class APIRunner {
             int id = Integer.parseInt(req.params("id"));
             User user = gson.fromJson(req.body(), User.class);
             System.out.println("user: " + user.getName());
+            for(FoodItem item: user.getListOfFoodItem()){
+                System.out.println("user: " + item.getB12inFoodItem());
+            }
             connectingToDatabase.addToTableItem(user);
             res.type("application/json");
             return gson.toJson("foodItem has been updated");

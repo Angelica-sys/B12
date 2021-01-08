@@ -47,7 +47,7 @@ public class ConnectingToDatabase {
             statement.executeUpdate("DROP TABLE IF EXISTS item");
             statement.executeUpdate("CREATE TABLE item"
                     // date DATETIME DEFAULT CURRENT_TIMESTAMP
-                    + "(surregate_key INTEGER PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 FLOAT, " +
+                    + "(surregate_key INTEGER PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 DOUBLE, " +
                     "FOREIGN KEY(user_id) REFERENCES user(id))");
             // , PRIMARY KEY(item_name, user_id)
             statement.close();
@@ -75,12 +75,13 @@ public class ConnectingToDatabase {
 
     public void addToTableItem(User user) throws SQLException {
         Statement statement = connection.createStatement();
-
         int id = user.getId();
         for (FoodItem item : user.getListOfFoodItem()) {
             count++;
             String itemName = item.getNameOfItem();
-            float b12 = item.getB12inFoodItem();
+
+            double b12 = item.getB12inFoodItem();
+            System.out.println("b12 adToTable: " + b12);
             String sql2 = "INSERT INTO item (surregate_key, item_name, user_id, b12) "
                     + "VALUES (" + count + ", '"
                     + itemName + "', "
@@ -117,7 +118,7 @@ public class ConnectingToDatabase {
             while (response.next()) {
                 FoodItem item = new FoodItem();
                 item.setNameOfItem(response.getString("item_name"));
-                item.setB12inFoodItem(response.getInt("b12"));
+                item.setB12inFoodItem(response.getDouble("b12"));
                 user.addFoodItem(item);
             }
             statement.executeQuery("SELECT * FROM user " +
@@ -128,6 +129,10 @@ public class ConnectingToDatabase {
         } catch (SQLException e) {
             System.out.println("No column with user_id " + id);
             // e.printStackTrace();
+        }
+
+        for (FoodItem item: user.getListOfFoodItem()){
+            System.out.println("b12 fetch: " + item.getB12inFoodItem());
         }
         return user;
     }
