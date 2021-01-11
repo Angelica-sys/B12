@@ -3,7 +3,7 @@ import java.util.HashMap;
 /**
  * FoodItem is a class that represents a FoodItem in the application
  *
- * @author Emma Svensson, Carin Loven
+ * @author Emma Svensson
  * @version 1.0
  */
 public class FoodItem {
@@ -11,7 +11,8 @@ public class FoodItem {
     private double b12inFoodItem;
     private HashMap<String, Integer> hash = new HashMap<String, Integer>();
 
-    public FoodItem() {}
+    public FoodItem() {
+    }
 
     public void setNameOfItem(String foodName) {
         this.foodName = foodName;

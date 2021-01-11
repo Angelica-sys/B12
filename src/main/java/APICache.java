@@ -18,7 +18,7 @@ import java.util.HashMap;
  * @version 1.0
  */
 public class APICache {
-    private FoodItemContainer foodItemObjectInMemory;
+
     private String url;
     private StringBuffer content;
     private String dataAsXML;

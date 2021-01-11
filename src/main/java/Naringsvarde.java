@@ -2,6 +2,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Part of the process of unmarshalling XML data into an executable Java object with fasterxml.jackson
+ *
  * @author Carin Loven
  * @version 1.0
  */
@@ -47,11 +48,15 @@ public class Naringsvarde {
         return namn;
     }
 
-    public String getForkortning() { return forkortning;}
+    public String getForkortning() {
+        return forkortning;
+    }
 
     public String getVarde() {
         return varde;
     }
 
-    public String getUnit (){ return enhet; }
+    public String getUnit() {
+        return enhet;
+    }
 }

@@ -10,9 +10,9 @@ public class User {
     public String name;
     public int id;
     public ArrayList<FoodItem> foodItems = new ArrayList<FoodItem>();
-    public int totalAmountB12;
 
-    public User(){}
+    public User() {
+    }
 
     public int getId() {
         return id;
@@ -38,11 +38,4 @@ public class User {
         foodItems.add(foodItem);
     }
 
-    public int getTotalAmountB12() {
-        return totalAmountB12;
-    }
-
-    public void setTotalAmountB12(int totalAmountB12) {
-        this.totalAmountB12 = totalAmountB12;
-    }
 }

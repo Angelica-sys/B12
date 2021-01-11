@@ -1,7 +1,5 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import spark.ModelAndView;
-import spark.template.pebble.PebbleTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,15 +24,10 @@ public class APIRunner {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(User.class, new UserDeserializer(cache));
-        Gson gson = gsonBuilder.create();
-        Gson gson1 = new Gson();
+        Gson gbuilder = gsonBuilder.create();
+        Gson gson = new Gson();
         System.out.println("API runs");
 
-
-        get("/front", (req, res) -> {
-            return new PebbleTemplateEngine().render(
-                    new ModelAndView(null, "templates/index.html"));
-        });
 
         get("/users/", (req, res) -> {
             List<User> users = connectingToDatabase.fetchUserList();
@@ -43,12 +36,10 @@ public class APIRunner {
                 Map map = new HashMap();
                 map.put("id", user.id);
                 map.put("name", user.name);
-                // map.put("details", "http://localhost:5000/" + user.id);
-                //TODO Varför behövs denna?
                 userList.add(map);
             }
             res.type("application/json");
-            return gson.toJson(userList);
+            return gbuilder.toJson(userList);
         });
 
         get("/users/:id", (req, res) -> {
@@ -65,13 +56,13 @@ public class APIRunner {
                 foodItem.add(map);
             }
             res.type("application/json");
-            return gson.toJson(foodItem);
+            return gbuilder.toJson(foodItem);
         });
 
 
         post("/users/", (req, res) -> {
             try {
-                User user = gson1.fromJson(req.body(), User.class);
+                User user = gson.fromJson(req.body(), User.class);
                 System.out.println("user: " + user.getName() + " " + user.getId());
                 connectingToDatabase.addToTableUser(user);
             } catch (Exception e) {
@@ -83,14 +74,14 @@ public class APIRunner {
 
         put("/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
-            User user = gson.fromJson(req.body(), User.class);
+            User user = gbuilder.fromJson(req.body(), User.class);
             System.out.println("user: " + user.getName());
             for (FoodItem item : user.getListOfFoodItem()) {
                 System.out.println("user: " + item.getB12inFoodItem());
             }
             connectingToDatabase.addToTableItem(user);
             res.type("application/json");
-            return gson.toJson("foodItem has been updated");
+            return gbuilder.toJson("foodItem has been updated");
         });
 
 
@@ -98,7 +89,7 @@ public class APIRunner {
             int id = Integer.parseInt(req.params("id"));
             connectingToDatabase.deleteUser(id);
             res.type("application/json");
-            return gson.toJson("user has been deleted");
+            return gbuilder.toJson("user has been deleted");
         });
 
     }
