@@ -98,23 +98,6 @@ public class ConnectingToDatabase {
         statement.close();
     }
 
-    /**
-     * Updates an existing users fooditems and nutrionvalues.
-     *
-     * @param user A user object.
-     */
-    public void updateUser(User user) {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "UPDATE user SET id = " + user.id + ", "
-                    + "user_name = '" + user.name + "', "
-                    + "WHERE id = " + user.id + ";";
-            statement.executeUpdate(sql);
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public User fetchFromTableItem(int id) throws SQLException {
         User user = new User();

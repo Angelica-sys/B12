@@ -1,5 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import spark.ModelAndView;
+import spark.template.pebble.PebbleTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +11,7 @@ import java.util.Map;
 import static spark.Spark.*;
 
 /**
- * Here we connect our ConnectToDatabase through our API using spark
+ * Here is our internal and external API using spark
  *
  * @author Angelica Asplund, Emma Svensson, Carin Loven
  * @version 1.0
@@ -18,19 +20,21 @@ public class APIRunner {
     private ConnectingToDatabase connectingToDatabase;
 
     public APIRunner(ConnectingToDatabase connectingToDatabase, APICache cache) throws ClassNotFoundException {
-        this.connectingToDatabase = connectingToDatabase;
         port(5000);
+        staticFiles.location("/public");
+        this.connectingToDatabase = connectingToDatabase;
+
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(User.class, new UserDeserializer(cache));
         Gson gson = gsonBuilder.create();
         Gson gson1 = new Gson();
         System.out.println("API runs");
 
-        //TODO Behövs detta?
-       /* get("/front", (req, res) -> {
+
+        get("/front", (req, res) -> {
             return new PebbleTemplateEngine().render(
                     new ModelAndView(null, "templates/index.html"));
-        });  */
+        });
 
         get("/users/", (req, res) -> {
             List<User> users = connectingToDatabase.fetchUserList();
@@ -72,9 +76,8 @@ public class APIRunner {
                 connectingToDatabase.addToTableUser(user);
             } catch (Exception e) {
                 System.out.println(e);
-                return 404;
             }
-            return 200;
+            return "user added";
         });
 
 
