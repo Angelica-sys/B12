@@ -117,8 +117,7 @@ public class ConnectingToDatabase {
             user.setName(name);
             statement.close();
         } catch (SQLException e) {
-            System.out.println("No column with user_id " + id);
-            // e.printStackTrace();
+             e.printStackTrace();
         }
 
         for (FoodItem item : user.getListOfFoodItem()) {

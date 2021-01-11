@@ -7,13 +7,15 @@ import java.net.URL;
 import java.sql.SQLException;
 
 /**
- * Test class for ConnectionToDatabas, APICache
+ * Starts the server
+ *
  * @author Carin Loven
  * @version 1.0
  */
 public class Main {
 
-    public Main() throws ClassNotFoundException {}
+    public Main() throws ClassNotFoundException {
+    }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         APICache cache = new APICache();
