@@ -29,7 +29,7 @@ public class APIRunner {
         System.out.println("API runs");
 
 
-        get("/users/", (req, res) -> {
+        get("/api/v1/users/", (req, res) -> {
             List<User> users = connectingToDatabase.fetchUserList();
             ArrayList<Map> userList = new ArrayList<Map>();
             for (User user : users) {
@@ -42,7 +42,7 @@ public class APIRunner {
             return gbuilder.toJson(userList);
         });
 
-        get("/users/:id", (req, res) -> {
+        get("/api/v1/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             User user = connectingToDatabase.fetchFromTableItem(id);
             List<FoodItem> users = user.getListOfFoodItem();
@@ -60,7 +60,7 @@ public class APIRunner {
         });
 
 
-        post("/users/", (req, res) -> {
+        post("/api/v1/users/", (req, res) -> {
             try {
                 User user = gson.fromJson(req.body(), User.class);
                 System.out.println("user: " + user.getName() + " " + user.getId());
@@ -72,7 +72,7 @@ public class APIRunner {
         });
 
 
-        put("/users/:id", (req, res) -> {
+        put("/api/v1/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             User user = gbuilder.fromJson(req.body(), User.class);
             System.out.println("user: " + user.getName());
@@ -85,7 +85,7 @@ public class APIRunner {
         });
 
 
-        delete("/users/:id", (req, res) -> {
+        delete("/api/v1/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             connectingToDatabase.deleteUser(id);
             res.type("application/json");
