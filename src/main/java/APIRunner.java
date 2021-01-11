@@ -9,6 +9,8 @@ import java.util.Map;
 import static spark.Spark.*;
 
 /**
+ * Here we connect our ConnectToDatabase through our API using spark
+ *
  * @author Angelica Asplund, Emma Svensson, Carin Loven
  * @version 1.0
  */
@@ -62,16 +64,6 @@ public class APIRunner {
             return gson.toJson(foodItem);
         });
 
-        /*
-        post("/users", (req, res) -> {
-            try {
-                User user = gson.fromJson(req.body(), User.class);
-                connectingToDatabase.addToTableUsers(user);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            return "";
-        });  */
 
         post("/users/", (req, res) -> {
             try {
@@ -85,30 +77,12 @@ public class APIRunner {
             return 200;
         });
 
-        /*
-        User user = new User();
-        connectingToDatabase.addToTableUser(user);
-        res.type("application/json");
-        return gson.toJson("user is created");
-         */
-
-        /*
-        put("/users/id", (req, res) -> {
-            try {
-                User user = gson.fromJson(req.body(), User.class);
-                user.id = Integer.parseInt(req.params("id"));
-                connectingToDatabase.updateUser(user);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            return "";
-        }); */
 
         put("/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             User user = gson.fromJson(req.body(), User.class);
             System.out.println("user: " + user.getName());
-            for(FoodItem item: user.getListOfFoodItem()){
+            for (FoodItem item : user.getListOfFoodItem()) {
                 System.out.println("user: " + item.getB12inFoodItem());
             }
             connectingToDatabase.addToTableItem(user);
@@ -116,14 +90,13 @@ public class APIRunner {
             return gson.toJson("foodItem has been updated");
         });
 
+
         delete("/users/:id", (req, res) -> {
-            int id = Integer.parseInt(req.params("id"));   //todo Behövs :id?
+            int id = Integer.parseInt(req.params("id"));
             connectingToDatabase.deleteUser(id);
             res.type("application/json");
             return gson.toJson("user has been deleted");
         });
 
-        //delete (/:id, (req, res) ->{
-        // return "You have deleted a food item in a users list"; });
     }
 }
