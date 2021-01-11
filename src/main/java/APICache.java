@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 /**
  * Cache memory to store data from Livsmedelsverkets API every time a
- * klient connects, to keep it updated.
+ * client connects, to keep it updated.
  *
  * @author Emma Svensson, Carin Loven, Angelica Asplund
  * @version 1.0
@@ -31,7 +31,6 @@ public class APICache {
         fetchFromAPI();
         deserialization();
         createFoodItemObject();
-        // print();
     }
 
     /**
@@ -41,7 +40,7 @@ public class APICache {
     public void fetchFromAPI() {
         Calendar calendar = Calendar.getInstance();
         url = ("http://www7.slv.se/apilivsmedel/LivsmedelService.svc/Livsmedel/Naringsvarde/"
-                + calendar.get(Calendar.YEAR) + "0" + (calendar.get(Calendar.MONTH) + 1) + "0" + calendar.get(Calendar.DATE));
+                + calendar.get(Calendar.YEAR) + "0" + (calendar.get(Calendar.MONTH) + 1) + calendar.get(Calendar.DATE));
         System.out.println(url);
 
         try {
@@ -66,7 +65,7 @@ public class APICache {
     }
 
     /**
-     * Unmarshals the XML to an executable Java object. The unmarshalling process
+     * Unmarshalls the XML to an executable Java object. The unmarshalling process
      * contains the five classes:
      * LivsmedelDataset --> LivsmedelsList --> Livsmedel --> Naringsvarden --> Narigsvarde
      */
@@ -88,6 +87,7 @@ public class APICache {
      */
     public void createFoodItemObject() {
         LivsmedelsLista lista = container.getLivsmedelsLista();
+
         for (Livsmedel livsmedel : lista.getListOfLivsmedel()) {
             FoodItem item = new FoodItem();
             item.setNameOfItem(livsmedel.getNamn());
@@ -114,7 +114,7 @@ public class APICache {
     }
 
     /**
-     * Prints all "Näringsvärden".
+     * A testmetod that prints all "Näringsvärden".
      */
     public void print() {
         LivsmedelsLista lista = container.getLivsmedelsLista();

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * This class connects to a database, creates tables, saves- and fetches data.
  *
- * @author Carin Loven, Emma Svensson, Angelica Asplund
+ * @author Emma Svensson, Carin Loven, Angelica Asplund
  * @version 1.0
  */
 public class ConnectingToDatabase {
@@ -35,6 +35,7 @@ public class ConnectingToDatabase {
 
     /**
      * Creates a table in the database.
+     *
      * @throws SQLException
      */
     public void createTables() throws SQLException {
@@ -46,10 +47,8 @@ public class ConnectingToDatabase {
 
             statement.executeUpdate("DROP TABLE IF EXISTS item");
             statement.executeUpdate("CREATE TABLE item"
-                    // date DATETIME DEFAULT CURRENT_TIMESTAMP
                     + "(surregate_key INTEGER PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 DOUBLE, " +
                     "FOREIGN KEY(user_id) REFERENCES user(id))");
-            // , PRIMARY KEY(item_name, user_id)
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,7 +56,8 @@ public class ConnectingToDatabase {
     }
 
     /**
-     * Adds data to a table.
+     * Adds data to table user
+     *
      * @param user is a User-object that contains name of the user and FoodItem-objects.
      * @throws SQLException
      */
@@ -73,6 +73,12 @@ public class ConnectingToDatabase {
         statement.close();
     }
 
+    /**
+     * Adds data to table item
+     *
+     * @param user is a User-object that contains name of the user and FoodItem-objects.
+     * @throws SQLException
+     */
     public void addToTableItem(User user) throws SQLException {
         Statement statement = connection.createStatement();
         int id = user.getId();
@@ -93,7 +99,8 @@ public class ConnectingToDatabase {
     }
 
     /**
-     * Updates an existing user.
+     * Updates an existing users fooditems and nutrionvalues.
+     *
      * @param user A user object.
      */
     public void updateUser(User user) {
@@ -131,7 +138,7 @@ public class ConnectingToDatabase {
             // e.printStackTrace();
         }
 
-        for (FoodItem item: user.getListOfFoodItem()){
+        for (FoodItem item : user.getListOfFoodItem()) {
             System.out.println("b12 fetch: " + item.getB12inFoodItem());
         }
         return user;
@@ -139,6 +146,7 @@ public class ConnectingToDatabase {
 
     /**
      * Fetches a list of all users.
+     *
      * @return A list of users.
      */
     public List<User> fetchUserList() {
@@ -159,6 +167,11 @@ public class ConnectingToDatabase {
         return users;
     }
 
+    /**
+     * Deletes a users all fooditems from the database.
+     *
+     * @param id The id of a user
+     */
     public void deleteUsersAllItem(int id) {
         try {
             Statement statement = connection.createStatement();
@@ -169,19 +182,9 @@ public class ConnectingToDatabase {
         }
     }
 
-    public void deleteItem(int id, String item_name) {
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM item WHERE user_id = " + id + " AND "
-                    + "item_name = '" + item_name + "'");
-            statement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Deletes a user from the database.
+     *
      * @param id The id of a user
      */
     public void deleteUser(int id) {
