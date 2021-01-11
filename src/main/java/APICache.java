@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 /**
  * Cache memory to store data from Livsmedelsverkets API every time a
- * client connects, to keep it updated.
+ * client connects, to keep it updated. Hej
  *
  * @author Emma Svensson, Carin Loven, Angelica Asplund
  * @version 1.0
