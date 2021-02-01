@@ -1,124 +1,119 @@
+
 $(document).ready(function() {
-  /*lägg till användare*/
-  function postItem() {
-      return function() {
-          var data = {}; // Datan som Javascript-objekt
-          data.name = $('#newItem input[name=name]').val();
-          data.id = $('#newItem textarea[name=id]').val();
+  //Lägger till ny användare
+  function postUser() {
+    return function() {
+      var data = {};
+      data.name = $('#newUser input[name=name]').val();
+      data.id = $('#newUser input[name=id]').val();
 
-          /*Api anrop*/
-          $.ajax({  
-          method: "POST", //metod lägg till
-          url: 'http://unicorns.idioti.se', //Adress till api
-          data: JSON.stringify(data),
-          headers: {"Accept": "application/json"}
-          })
-
-          .done(function(result) {
-
-          /*Consol log för att se vad som skickas*/
-          window.location.reload();
-          console.log('Lade till följande data:');
-          console.log(JSON.stringify(data));
-          });
-      }
-  }
-  /*läggtill i användarlista*/
-  function putItem(setName) {
-      return function() {
-          var data = {}; // Datan som Javascript-objekt
-          data.name = $('#items input[name=name]').val();
-          data.id = $('#items input[name=id]').val(); 
-          data.fooditem = $('#items textarea[name=fooditem]').val();
-
-          /*Api anrop*/
-          $.ajax({  
-          method: "PUT", // metod ändra
-
-          url: 'http://unicorns.idioti.se/' + data.id, //Adress till api
-          data: JSON.stringify(data),
-          headers: {"Accept": "application/json"}
-          })
-          .done(function(result) {
-
-          /*Consol log för att se vad som skickas*/
-          window.location.reload();
-          console.log('Uppdaterade till följande data:');
-          console.log(JSON.stringify(data));
-          });
-      }
+      $.ajax({
+        method: "POST",
+        url: 'http://localhost:5000/api/v1/users/',
+        data: JSON.stringify(data),
+        headers: {"Accept": "application/json"}
+      })
+      .done(function(result) {
+      console.log('La till användare');
+      });
+    }
   }
 
-  function deleteItem(unicorn) {
-      return function() {
-        $.ajax({
-          method: "DELETE",
-          url: 'http://unicorns.idioti.se/' + unicorn
-        })
-          .done(function (data) {
-              window.location.reload();
-        });
-      }
-    }      
+  function putFoodItemToUser(id) {
+    return function() {
+      var data = {};
+      //data.name = $('#newItem input[name=name]').val();
+      //data.id = $('#newItem input[name=id]').val();
+      data.foodItem = $('#existingUser input[foodItem=foodItem]').val(); //ska det vara name=name ?
 
 
+      $.ajax({
+        method: "PUT",
+        url: 'http://localhost:5000/api/v1/users/' + data.id,
+        data: JSON.stringify(data),
+        headers: {"Accept": "application/json"}
+      })
+      .done(function(result) {
+      console.log('La till mat');
+      });
+    }
+  }
 
-  function fetchAndUpdateInfo(details) {// Visa info funktion
+  function deleteUser(user) {
+    return function() {
+      $.ajax({
+        method: "DELETE",
+        url: 'http://localhost:5000/api/v1/users/' + user
+       //  })
+       //           .done(function (data) {
+         //             window.location.reload();
+      });
+    }
+  }
+
+    /*Visa info funktion*/
+  function fetchAndUpdateInfo(id) {
       return function() {
           $.ajax({
-              url: details,
+              method: "GET",
+                        crossDomain: true,
+                        url: 'http://localhost:5000/api/v1/users/' + data.id,
               headers: {"Accept": "application/json"}
           })
           .done(function (data) {
-              /* Mata in text med Jquery*/
-              $('#itemName').text(data['name']);
-              $('#itemId').text(data['id']);
+              $('#userName').text(data['name']);
+              $('#userId').text(data['id']);
 
-              /* input lista*/
+              /*
+               //Karls lösning
               $('#items input[name=name]').val(data['name']);
               $('#items input[name=id]').val(data['id']);
               $('#items input[name=fooditem]').val(data['fooditem']);
+               */
 
-              /*Kopplar knappar till funktionerna*/  
-              $('#postItem').click(postItem('#newItem'));
-              $('#putItem').click(putItem('#items'));
-              $('#deleteItem').click(deleteItem(data['id'])); //LISTA ELLER DATA?
+              $('#existingUser input[name=id]').val(data['id']);
+              $('#existingUser input[name=name]').val(data['name']);
+
+
+              $('#postUser').click(postUser('#newUser'));
+              $('#putItem').click(putItem('#newItem'));
+              $('#deleteUser').click(deleteUser(data['id']));
               });
           }
-      }   
+      }
 
   $(document).ready(function () {
-      /*Hämta api lista*/
       $.ajax({
           method: "GET",
           crossDomain: true,
-          url: 'http://localhost:5000/users/',        // Här finns listan.
-          headers: {"Accept": "application/json"}  // Det här berättar för webservernatt vi vill ha JSON tillbaka.
+          url: 'http://localhost:5000/api/v1/users/',
+          headers: {"Accept": "application/json"}
       })
 
-      .done(function (data) { 
-          list = $('#item_List');// Här hämtar vi en referens till listan
-          
-          for (i = 0; i < data.length; i++) {//går igenom listan
+      .done(function (data) {
+          list = $('#users'); //eller user??
 
-          // Vi lägger till rå HTML till listan, så vi skapar en variabel för det.
-              html = '';
-              html = '<li id="item_' + i + '">' + data[i]['id'] + '</li>';
+          for (i = 0; i < data.length; i++) {
+              html = '';    // denna känns överflödig
+              html = '<li id="item_' + i + '">' + data[i]['name'] + '</li>';
               list.append(html);
-              console.log('HÄMTADE:');
+              console.log('HÄMTADE DATA:');
               console.log(JSON.stringify(data));
-
-              /*Klickbar lista funktion*/
-              $('#item_' + i).click(fetchAndUpdateInfo(data[i]['treeValueCell']));
+              $('#user_' + i).click(fetchAndUpdateInfo(data[i]['details']));
+         //     $('#item_' + i).click(fetchAndUpdateInfo(data[i]['name']));
           }
-      });
-
-  $("h4").on("click", function() {
-      $(this).nextAll("*").slideToggle();
-  });
-      /*Beräkna animering på sidan*/
-      $("div.output_wrapper").hide();
-      $('#postItem').click(postItem());
-      $('#putItem').click(putItem());
-  });
-});
+        });
+          $("h4").on("click", function() {
+              $(this).nextAll("*").slideToggle();
+          });
+              /*Beräkna animering på sidan*/
+              $("div.output_wrapper").hide();
+              $('#postUser').click(postUser());
+              $('#putFoodItemToUser').click(putFoodItemToUser());
+          });
+        });
+        /*
+           $('#postUser').click(postUser());
+           $('#putFoodItemToUser').click(putFoodItemToUser());
+           $('#addUser').click(hideFormsAndShowOne('#newUser'));
+      });  */
