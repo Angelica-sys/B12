@@ -22,9 +22,9 @@ $(document).ready(function() {
   function putFoodItemToUser(id) {
     return function() {
       var data = {};
-      //data.name = $('#newItem input[name=name]').val();
-      //data.id = $('#newItem input[name=id]').val();
-      data.foodItem = $('#existingUser input[foodItem=foodItem]').val(); //ska det vara name=name ?
+      data.name = $('#newFooditem input[name=name]').val();
+      data.id = $('#newFooditem input[name=id]').val();
+      data.foodItem = $('#newFooditem input[name=fooditem]').val(); //ska det vara name=name ?
 
 
       $.ajax({
@@ -52,24 +52,22 @@ $(document).ready(function() {
   }
 
     /*Visa info funktion*/
-  function fetchAndUpdateInfo(id) {
+  function fetchAndUpdateInfo(details) {
       return function() {
           $.ajax({
-              method: "GET",
-                        crossDomain: true,
-                        url: 'http://localhost:5000/api/v1/users/' + data.id,
+                        url: details,
               headers: {"Accept": "application/json"}
           })
           .done(function (data) {
               $('#userName').text(data['name']);
               $('#userId').text(data['id']);
-               /*
+
               $('#newUser input[name=id]').val(data['id']);
               $('#newUser input[name=name]').val(data['name']);
-              */
+              /*
               $('#existingUser input[name=id]').val(data['id']);
               $('#existingUser input[name=name]').val(data['name']);
-
+                */
 
               $('#postUser').click(postUser('#newUser'));
               $('#putItem').click(putItem('#newItem'));
