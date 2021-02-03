@@ -63,14 +63,10 @@ $(document).ready(function() {
           .done(function (data) {
               $('#userName').text(data['name']);
               $('#userId').text(data['id']);
-
-              /*
-               //Karls lösning
-              $('#items input[name=name]').val(data['name']);
-              $('#items input[name=id]').val(data['id']);
-              $('#items input[name=fooditem]').val(data['fooditem']);
-               */
-
+               /*
+              $('#newUser input[name=id]').val(data['id']);
+              $('#newUser input[name=name]').val(data['name']);
+              */
               $('#existingUser input[name=id]').val(data['id']);
               $('#existingUser input[name=name]').val(data['name']);
 
@@ -91,29 +87,43 @@ $(document).ready(function() {
       })
 
       .done(function (data) {
-          list = $('#users'); //eller user??
+          list = $('#users');
 
           for (i = 0; i < data.length; i++) {
-              html = '';    // denna känns överflödig
-              html = '<li id="item_' + i + '">' + data[i]['name'] + '</li>';
+              html = '<li id="user_' + i + '">' + data[i]['name'] + '</li>';
               list.append(html);
-              console.log('HÄMTADE DATA:');
+              console.log('HÄMTADE ANVÄNDARE:');
               console.log(JSON.stringify(data));
               $('#user_' + i).click(fetchAndUpdateInfo(data[i]['details']));
          //     $('#item_' + i).click(fetchAndUpdateInfo(data[i]['name']));
           }
         });
-          $("h4").on("click", function() {
-              $(this).nextAll("*").slideToggle();
-          });
-              /*Beräkna animering på sidan*/
-              $("div.output_wrapper").hide();
-              $('#postUser').click(postUser());
-              $('#putFoodItemToUser').click(putFoodItemToUser());
-          });
-        });
-        /*
+
+
            $('#postUser').click(postUser());
            $('#putFoodItemToUser').click(putFoodItemToUser());
-           $('#addUser').click(hideFormsAndShowOne('#newUser'));
-      });  */
+        //   $('#addUser').click(hideFormsAndShowOne('#newUser'));
+      });
+
+
+        //detta la jag till senast, vet i sjutton om det ens ska vara med, men behöver vi också hämta livsmedel eller kommer de av sig självt?
+        /*
+        .done(function (data) {
+                list = $('#item_List');
+
+                for (i = 0; i < data.length; i++) {
+                    html = '<li id="item_' + i + '">' + data[i]['name'] + '</li>';
+                    list.append(html);
+                    console.log('HÄMTADE LIVSMEDEL');
+                    console.log(JSON.stringify(data))
+                    $('#item_' + i).click(fetchAndUpdateInfo(data[i]['name']));
+                }
+              });
+
+
+                 $('#postUser').click(postUser());
+                 $('#putFoodItemToUser').click(putFoodItemToUser());
+              //   $('#addUser').click(hideFormsAndShowOne('#newUser'));
+            });
+            */
+    });
