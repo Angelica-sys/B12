@@ -1,143 +1,46 @@
-<!doctype html>
-<html lang="sv-se">
+<!DOCTYPE html>
+<html>
 <head>
-	<meta charset="utf-8" >
-	<title>Mat Grupp7</title>
-	<link href="static/style.css" rel="stylesheet" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Big+Shoulders+Text&display=swap" rel="stylesheet">
+	<title>B12</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="static/script.js" defer></script>
+  	<link rel="stylesheet" type="text/css" href="style.css">
 
+	<meta charset="utf-8">
 </head>
-
 <body>
-<div id="wrapper">
-	<header>
-		<nav id="top_nav">
-			<a href="#om">Om sidan</a>
-			<a href="#grupp7">Grupp 7</a>
-			<a href="index.html">Kontakt</a>
-			<img src="static/img/mu-logo.png">
-		</nav>
-		<h2>Mat</h2>
-		<h3>Sånt som räknas</h3>
-	</header>
-	<!--Användare-->
-	<div class="wrap_list">
-		<button type="button" id="deleteUser">Ta bort användare</button>
-		<tr>
-			<td id="list">
-				<ul id="users">
-					<div id="userslist"><ul>
-					<li>användare får gärna synas här</li>
-					<li>användare här</li>
-						<li>och här</li> </ul>
-					</div>
-				</ul>
-			</td>
-			<td id="info">
-				<p id="usereats"></p>
-			</td>
+<h1>Användare</h1>
 
-		</tr>
-	</div>
-	<!--	<nav id="user_nav">
-            <div id="users"><ul><li>user</li><li>user</li><li>user</li></ul></div>
-        </nav>  -->
-	<main_top>
-		<h3>B12 beräkning</h3><p>Räkna ut B12 i livsmedel genom att skriva in dina konsumerade varor, klicka sedan på ”Beräkna”.</p>
-	</main_top>
-	<main>
-		<!--Lägg till Användare-->
-		<div id="input"><h3>Lista</h3>
-			<form name="newUser" id="newUser">
-				<fieldset>
-					<legend>Användare</legend>
-					<label for="name">Användare</label>
-					<input type="text" name="name"><br>
-					<label for="id">Id:</label>
-					<input type="text" name="id"><br>
-					<button type="button" id="postUser">Bekräfta</button>
-				</fieldset>
-
-				<!--Lägg till Livsmedel--->
-				<form name="newItem" id="newItem">
-					<fieldset>
-						<legend>Livsmedel</legend>
-						<label for="name">Livsmedel:</label>
-						<input type="text" name="name"><br>
-						<input type="hidden" name="foodItem">
-						<button type="button" id="putItem">Lägg till</button>
-					</fieldset>
-				</form>
-		</div>
-		<button class="foldable">
-			<h4 id="print">Beräkna</h4>
-			<h3>B12-värde</h3>
-			<div class="output_wrapper">
-				<div class="output"><h5>Beräknad B12 värde</h5>
-					<table id="data">
-						<tr>
-							<td id="info2">
-								<p id="itemId"></p>
-								<p id="itemName"></p>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-		</button>
-	</main>
-	<!--varulista--->
-	<div class="wrap_list">
-		<button type="button" id="deleteItem">Ta bort varulista</button>
-		<td id="list2">
-			<ul id="item_List">
-				<div id="food_items"><ul>
-					<li>Här ska livsmedel synas.</li>
-					<li>Om allt hade fungerat</li>
-					<li>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li></ul>
-				</div>
+<table>
+	<tr>
+		<td id="list">
+			<h2 id="username">Det finns inte några sparade användare</h2>
+			<ul id="users">
 			</ul>
 		</td>
-	</div>
-	<main_bottom>
-		<div class="text">
-			<h5>
-				Varför
-			</h5>
-			<p><a name="om"></a>Vår webbsida erbjuder möjligheten att kunna se och jämföra B12 i livsmedelsprodukter. Du som användare kan skapa din egen profil och redan idag öka medvetenheten kring vad du äter.
-				Det är inte alltid så att kroppen säger ifrån i tid om visst näringsämne saknas och därför erbjuder vi en webbtjänst där du lätt kan överblicka över vad du får i dig och lika viktigt,
-				vad du inte får i dig.</p>
-		</div>
-		<div class="text">
-			<h5>
-				Hur
-			</h5>
-			<p>Vår webbtjänst erbjuder möjligheten att kunna se näringsvärdent i en eller flertal matvaror. Detta är möjligt genom att vi använder oss av ett API från Livsmedelsverket
-				som ger tillgång till deras databas på över 2000 olika livsmedel med 50 olika typer av näringsvärden. Livsmedel i databasen är klassificerade enligt den europeiska standarden LanguaL
-				och varje livsmedel ingår i en klassificering och har ett unikt id.</p>
-		</div>
-		<div class="text">
-			<h5>
-				Om
-			</h5>
-			<p>Hemsidan är byggd på HTML (UTF-8) och CSS för att visuellt kunna anpassa hemsidan efter vårt behov, vidare används JavaScript med jQuery-bibliotek som tillhandahåller ramverket Ajax.
-				Detta för att kunna utöka användbarheten för både utvecklare samt slutanvändaren genom att implementera exempelvis knappar med tydlig ”feedback” till användaren och andra tekniska och grafiska
-				signaler för att öka sidans funktionalitet.</p>
-		</div>
-	</main_bottom>
-	<footer>
-		<h3>Grupp7</h3>
-		<div class="members">
-			<a name="grupp7"></a>
-			<p>Carin Lovén</p>
-			<p>Angelica Asplund</p>
-			<p>Emma Svensson</p>
-		</div>
-		<img src="static/img/mu-logo.png">
-		<img src="static/img/icon.JPG">
-	</footer>
-</div>
-<script src="static/script.js" defer></script>
+		<td id="userEats">
+			<p id="fooditem"></p>
+			<p id="b12"></p>
+			<button type="button" id="adduser">Lägg till en användare</button>
+			<button type="button" id="addFooditem">Lägg till ett livsmedel</button>
+			<button type="button" id="deleteUser">Radera användare</button>
+
+			<form name="newUser" id="newUser">
+				<label for="name">Användarnamn:</label>
+				<input type="text" name="name"><br>
+				<label for="id">Id:</label>
+				<input type="text" name="id"><br>
+				<button type="button" id="postUser">Lägg till användare</button>
+			</form>
+
+			<form name="newFooditem" id="newFooditem">
+				<label for="fooditem">Livsmedel </label>
+				<input type="text" name="fooditem"><br>
+				<button type="button" id="putFoodItemToUser">Skicka</button>
+			</form>
+
+		</td>
+	</tr>
+</table>
 </body>
 </html>
