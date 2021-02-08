@@ -79,7 +79,7 @@ p {
 #top_nav {
   display: flex;
   position: fixed;
-  z-index: 2; 
+  z-index: 2;
   transform: translateY(-20px);
   background-color: rgba(0, 0, 0, 0.411);
   width: 100%;
@@ -109,7 +109,7 @@ p {
   display: flex;
   justify-content: center;
   position: relative;
-  z-index: 1; 
+  z-index: 1;
   transform: translateY(-50%);
   background-color: white;
   margin: auto;

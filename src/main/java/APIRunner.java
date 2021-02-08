@@ -1,5 +1,7 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import spark.ModelAndView;
+import spark.template.pebble.PebbleTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +29,6 @@ public class APIRunner {
         Gson gbuilder = gsonBuilder.create();
         Gson gson = new Gson();
         System.out.println("API runs");
-
 
         get("/api/v1/users/", (req, res) -> {
             List<User> users = connectingToDatabase.fetchUserList();
@@ -59,7 +60,6 @@ public class APIRunner {
             return gbuilder.toJson(foodItem);
         });
 
-
         post("/api/v1/users/", (req, res) -> {
             try {
                 User user = gson.fromJson(req.body(), User.class);
@@ -71,11 +71,10 @@ public class APIRunner {
             return "user added";
         });
 
-
         put("/api/v1/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             User user = gbuilder.fromJson(req.body(), User.class);
-            System.out.println("user: " + user.getName());
+            System.out.println("user: " + user.getName() + " " + user.getId());
             for (FoodItem item : user.getListOfFoodItem()) {
                 System.out.println("user: " + item.getB12inFoodItem());
             }
@@ -84,13 +83,11 @@ public class APIRunner {
             return gbuilder.toJson("foodItem has been updated");
         });
 
-
         delete("/api/v1/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             connectingToDatabase.deleteUser(id);
             res.type("application/json");
             return gbuilder.toJson("user has been deleted");
         });
-
     }
 }

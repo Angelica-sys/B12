@@ -4,7 +4,7 @@
 	<title>B12</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="static/script.js" defer></script>
-  	<link rel="stylesheet" type="text/css" href="style.css">
+  	<link rel="stylesheet" type="text/css" href="static/style.css">
 
 	<meta charset="utf-8">
 </head>
@@ -23,7 +23,6 @@
 			<p id="b12"></p>
 			<button type="button" id="adduser">Lägg till en användare</button>
 			<button type="button" id="addFooditem">Lägg till ett livsmedel</button>
-			<button type="button" id="deleteUser">Radera användare</button>
 
 			<form name="newUser" id="newUser">
 				<label for="name">Användarnamn:</label>
@@ -34,11 +33,20 @@
 			</form>
 
 			<form name="newFooditem" id="newFooditem">
+				<label for="name">Användarnamn:</label>
+				<input type="text" name="name"><br>
+				<label for="id">Id:</label>
+				<input type="text" name="id"><br>
 				<label for="fooditem">Livsmedel </label>
 				<input type="text" name="fooditem"><br>
-				<button type="button" id="putFoodItemToUser">Skicka</button>
+				<button type="button" id="putFoodItemToUser">Lägg till food item</button>
 			</form>
 
+			<form name="deleteUser" id="deleteU">
+				<label for="id">Id:</label>
+				<input type="text" name="id"><br>
+				<button type="button" id="deleteUser">Radera användare</button>
+			</form>
 		</td>
 	</tr>
 </table>
