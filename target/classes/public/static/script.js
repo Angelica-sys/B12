@@ -84,18 +84,19 @@ $(document).ready(function() {
             }).done(function (data) {
                 list = $('#item_List');
                     for (i = 0; i < data.length; i++) {
-                         html = '<li id="item_' + i + '">' + data[i]['fooddItem'] + '</li>';
+                         html = '<li id="item_' + i + '">' + data[i]['foodItem'] + '</li>';
                          list.append(html);
+                         console.log(html);
                          console.log('HÄMTADE LIVSMEDEL');
-                       //  console.log(JSON.stringify(data))
                           var b12 = (data[i]['b12']).replace(",", ".");
                           amountB12 += parseFloat(b12);
-                       //  console.log(data[i]['b12']);
-                       //  console.log(data[i]['foodItem']);
-                       //  $('#item_' + i).click(fetchAndUpdateInfo(data[i]['name']));
+                         console.log(data[i]['b12']);
+                         console.log(data[i]['foodItem']);
+                  //       $('#item_' + i).click(fetchAndUpdateInfo(data[i]['name']));
                     }
                  console.log(userName + ' you have eaten ' + amountB12 + ' today');
             });
+
             /*
             .done(function (data) {
                 $('#userName').text(data['name']);
@@ -111,16 +112,16 @@ $(document).ready(function() {
                 $('#putItem').click(putItem('#newItem'));
                 $('#deleteUser').click(deleteUser(data['id']));
                 });
-                */
+            */
         }
    }
 
     function updateUserList() {
         $.ajax({
             method: "GET",
-           // crossDomain: true,
+           //crossDomain: true,
             url: 'http://localhost:5000/api/v1/users/',
-            headers: {"Accept": "application/json"}
+            headers: {"Accept": "application/json"},
         }).done(function (data) {
             list = $('#users');
             list.empty();
@@ -133,13 +134,11 @@ $(document).ready(function() {
                 console.log(data[i]['id']);
 
                 $('#user_' + i).click(fetchUsersFoodItems(data[i]['name'], data[i]['id']));
-
           //    $('#user_' + i).click(fetchAndUpdateInfo(data[i]['details']));
           //    $('#addUser').click(hideFormsAndShowOne('#newUser'));
             }
         });
     }
-
                 // Rader som jag rensat bort men som kanske behövs
                 // window.location.reload();
                 // $('#addUser').click(hideFormsAndShowOne('#newUser'));
