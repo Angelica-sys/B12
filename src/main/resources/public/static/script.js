@@ -3,6 +3,8 @@ $(document).ready(function() {
  $('#postUser').click(postUser());
  $('#putFoodItemToUser').click(putFoodItemToUser());
  $('#deleteUser').click(deleteUser());
+ $('#b12amount').click(b12amountFunction());
+
 
   function postUser() {
     return function() {
@@ -70,6 +72,7 @@ $(document).ready(function() {
         })
         .done(function(result) {
          console.log('Raderade användare');
+         updateUserList();
       });
     }
   }
@@ -82,7 +85,8 @@ $(document).ready(function() {
                 url: 'http://localhost:5000/api/v1/users/' + userId,
                 headers: {"Accept": "application/json"}
             }).done(function (data) {
-                list = $('#item_List');
+                list = $('#item');
+                list.empty();
                     for (i = 0; i < data.length; i++) {
                          html = '<li id="item_' + i + '">' + data[i]['foodItem'] + '</li>';
                          list.append(html);
@@ -90,10 +94,13 @@ $(document).ready(function() {
                          console.log('HÄMTADE LIVSMEDEL');
                           var b12 = (data[i]['b12']).replace(",", ".");
                           amountB12 += parseFloat(b12);
+
                          console.log(data[i]['b12']);
                          console.log(data[i]['foodItem']);
                   //       $('#item_' + i).click(fetchAndUpdateInfo(data[i]['name']));
                     }
+                     amountB12Function(amountB12);
+
                  console.log(userName + ' you have eaten ' + amountB12 + ' today');
             });
 
@@ -115,6 +122,11 @@ $(document).ready(function() {
             */
         }
    }
+    function b12amountFunction(amountB12) {
+      sumB12 = $('#B12');
+      html = '<h3 id="B12_">' + amountB12 + '</h3>';
+      sumB12.append(html);
+    }
 
     function updateUserList() {
         $.ajax({
