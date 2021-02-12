@@ -11,13 +11,49 @@ td {
 li {
   cursor: pointer;
 }
-#list {
-  width: 300px;
-}
+
 label {
   display: inline-block;
   width: 150px;
+  font-weight: bold;
+  font-family: 'Big Shoulders Text';
+
 }
 form {
   padding: 10px;
 }
+
+body {
+   background-color: #C1D3AF;
+   margin: 0px;
+   padding: 10px;
+}
+
+h1 {
+  color: #3A6B35;
+  font-family: 'Big Shoulders Text';
+  font-weight: bold;
+  font-size: 60px
+}
+
+h2 {
+  font-family: 'Big Shoulders Text';
+  color: #3A6B35;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+ #REK  {
+  font-weight: bold;
+  font-size: 15px;
+  font-family: 'Big Shoulders Text';
+}
+
+#Intro {
+  font-size: 20px;
+  font-family: 'Big Shoulders Text';
+  font-style: italic;
+  color: #638757;
+}
+
+
