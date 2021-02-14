@@ -1,10 +1,9 @@
 $(document).ready(function() {
-
  $('#postUser').click(postUser());
  $('#putFoodItemToUser').click(putFoodItemToUser());
  $('#deleteUser').click(deleteUser());
  $('#b12amount').click(b12amountFunction());
-
+ updateUserList();
 
   function postUser() {
     return function() {
@@ -12,7 +11,6 @@ $(document).ready(function() {
       data.name = $('#newUser input[name=name]').val();
       data.id = $('#newUser input[name=id]').val();
       console.log(data);
-
       $.ajax({
          method: "POST",
          url: "http://localhost:5000/api/v1/users/",
@@ -29,16 +27,17 @@ $(document).ready(function() {
 
   function putFoodItemToUser() {
     return function() {
+      console.log(idU);
+      console.log(nameU);
       var data = {};
-      data.name = $('#newFooditem input[name=name]').val();
-      data.id = $('#newFooditem input[name=id]').val();
+      data.name = nameU;
+      data.id = idU;
       var item = $('#newFooditem input[name=fooditem]').val();
       data.foodItems = [item];
       console.log(data);
-
       $.ajax({
         method: "PUT",
-        url: "http://localhost:5000/api/v1/users/" + data.id,
+        url: "http://localhost:5000/api/v1/users/" + idU,
         data: JSON.stringify(data),
         headers: {"Accept": "application/json"},
       }).done(function(result) {
@@ -71,15 +70,35 @@ $(document).ready(function() {
         url: 'http://localhost:5000/api/v1/users/' + data.id,
         })
         .done(function(result) {
-         console.log('Raderade användare');
+         console.log('Raderat användare' + data.id);
          updateUserList();
       });
     }
   }
 
+    function updateUserList() {
+        $.ajax({
+            method: "GET",
+            url: 'http://localhost:5000/api/v1/users/',
+            headers: {"Accept": "application/json"},
+        }).done(function (data) {
+            list = $('#users');
+            list.empty();
+
+            for (i = 0; i < data.length; i++) {
+                html = '<li id="user_' + i + '">' + data[i]['name'] + '</li>';
+                list.append(html);
+                console.log('Hämtat användare:');
+               $('#user_' + i).click(fetchUsersFoodItems(data[i]['name'], data[i]['id']));
+            }
+        });
+    }
+
    function fetchUsersFoodItems(userName, userId) {
-        var amountB12 = 0;
+    amountB12 = 0;
         return function() {
+            nameU = '"' + userName + '"';
+            idU = userId
             $.ajax({
                 method: "GET",
                 url: 'http://localhost:5000/api/v1/users/' + userId,
@@ -87,71 +106,34 @@ $(document).ready(function() {
             }).done(function (data) {
                 list = $('#item');
                 list.empty();
+                nameUser = $('#nameUser');
+                nameUser.empty();
+                html = '<h3 id="nameUser_">' + userName + '</h3>';
+                nameUser.append(html);
+
                     for (i = 0; i < data.length; i++) {
                          html = '<li id="item_' + i + '">' + data[i]['foodItem'] + '</li>';
                          list.append(html);
                          console.log(html);
-                         console.log('HÄMTADE LIVSMEDEL');
-                          var b12 = (data[i]['b12']).replace(",", ".");
-                          amountB12 += parseFloat(b12);
-
-                         console.log(data[i]['b12']);
-                         console.log(data[i]['foodItem']);
-                  //       $('#item_' + i).click(fetchAndUpdateInfo(data[i]['name']));
+                         console.log('Hämtat livsmedel');
+                         var b12 = (data[i]['b12']).replace(",", ".");
+                         amountB12 += parseFloat(b12);
                     }
-                     amountB12Function(amountB12);
-
-                 console.log(userName + ' you have eaten ' + amountB12 + ' today');
             });
-
-            /*
-            .done(function (data) {
-                $('#userName').text(data['name']);
-                $('#userId').text(data['id']);
-
-                $('#newUser input[name=id]').val(data['id']);
-                $('#newUser input[name=name]').val(data['name']);
-
-                $('#existingUser input[name=id]').val(data['id']);
-                $('#existingUser input[name=name]').val(data['name']);
-
-                $('#postUser').click(postUser('#newUser'));
-                $('#putItem').click(putItem('#newItem'));
-                $('#deleteUser').click(deleteUser(data['id']));
-                });
-            */
         }
    }
-    function b12amountFunction(amountB12) {
+
+    function b12amountFunction() {
+      return function() {
+      text =$('#Text');
+      text.empty();
+      str = '<p id="Text_">' + "Beräknat värde i microgram: " + '</p>';
+      text.append(str);
       sumB12 = $('#B12');
+      sumB12.empty();
       html = '<h3 id="B12_">' + amountB12 + '</h3>';
+      console.log(html);
       sumB12.append(html);
+      }
     }
-
-    function updateUserList() {
-        $.ajax({
-            method: "GET",
-           //crossDomain: true,
-            url: 'http://localhost:5000/api/v1/users/',
-            headers: {"Accept": "application/json"},
-        }).done(function (data) {
-            list = $('#users');
-            list.empty();
-            for (i = 0; i < data.length; i++) {
-                html = '<li id="user_' + i + '">' + data[i]['name'] + '</li>';
-                list.append(html);
-                console.log('HÄMTADE ANVÄNDARE:');
-                console.log(JSON.stringify(data));
-                console.log(data[i]['name']);
-                console.log(data[i]['id']);
-
-                $('#user_' + i).click(fetchUsersFoodItems(data[i]['name'], data[i]['id']));
-          //    $('#user_' + i).click(fetchAndUpdateInfo(data[i]['details']));
-          //    $('#addUser').click(hideFormsAndShowOne('#newUser'));
-            }
-        });
-    }
-                // Rader som jag rensat bort men som kanske behövs
-                // window.location.reload();
-                // $('#addUser').click(hideFormsAndShowOne('#newUser'));
 });
