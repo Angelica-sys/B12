@@ -1,13 +1,18 @@
 table {
-  border-spacing: 10px;
+  border-spacing: 15px;
   border-collapse: separate;
   cellspacing: 100px;
-  width: 1200px;
+  width: 1400px;
 }
+
 td {
+  vertical-align: top;
+  position: relative;
+  top: 15px;
   border: 1px solid black;
-  padding: 10px;
+  padding: 15px;
 }
+
 li {
   cursor: pointer;
 }
@@ -20,18 +25,18 @@ label {
 
 }
 form {
-  padding: 10px;
+  padding: 30px;
 }
 
 body {
    background-color: #C1D3AF;
    margin: 0px;
-   padding: 10px;
+   padding: 15px;
 }
 
 h1 {
-  color: #3A6B35;
   font-family: 'Big Shoulders Text';
+  color: #3A6B35;
   font-weight: bold;
   font-size: 60px
 }
@@ -43,7 +48,21 @@ h2 {
   font-size: 25px;
 }
 
- #REK  {
+h3 {
+  font-family: 'Big Shoulders Text';
+  color: #000000;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+ul {
+  font-family: 'Big Shoulders Text';
+  color: #000000;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#REK {
   font-weight: bold;
   font-size: 15px;
   font-family: 'Big Shoulders Text';
@@ -54,6 +73,20 @@ h2 {
   font-family: 'Big Shoulders Text';
   font-style: italic;
   color: #638757;
+}
+
+#infoAboutFoodItem {
+  font-size: 20px;
+  font-family: 'Big Shoulders Text';
+  font-style: italic;
+  color: #638757;
+}
+
+#nameUser {
+  font-family: 'Big Shoulders Text';
+  color: #000000;
+  font-weight: bold;
+  font-size: 25px;
 }
 
 
