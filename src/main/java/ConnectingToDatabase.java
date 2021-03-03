@@ -41,14 +41,17 @@ public class ConnectingToDatabase {
     public void createTables() throws SQLException {
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("DROP TABLE IF EXISTS user");
-            statement.executeUpdate("CREATE TABLE user"
+            
+
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS user"
                     + "(id INTEGER PRIMARY KEY, user_name TEXT)");
 
-            statement.executeUpdate("DROP TABLE IF EXISTS item");
-            statement.executeUpdate("CREATE TABLE item"
+
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS item"
                     + "(surregate_key INTEGER PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 DOUBLE, " +
                     "FOREIGN KEY(user_id) REFERENCES user(id))");
+
+
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
