@@ -2,7 +2,6 @@ $(document).ready(function() {
  $('#postUser').click(postUser());
  $('#putFoodItemToUser').click(putFoodItemToUser());
  $('#deleteUser').click(deleteUser());
- $('#b12amount').click(b12amountFunction());
  updateUserList();
 
   function postUser() {
@@ -95,8 +94,8 @@ $(document).ready(function() {
     }
 
    function fetchUsersFoodItems(userName, userId) {
-    amountB12 = 0;
         return function() {
+        var amountB12;
             nameU = '"' + userName + '"';
             idU = userId
             $.ajax({
@@ -119,11 +118,18 @@ $(document).ready(function() {
                          var b12 = (data[i]['b12']).replace(",", ".");
                          amountB12 += parseFloat(b12);
                     }
+                          sumB12 = $('#B12');
+                          sumB12.empty();
+                          html = '<h3 id="B12_">' + "Tryck på knappen för att beräkna" + '</h3>';
+                          console.log(html);
+                          sumB12.append(html);
+                       $('#b12amount').click(b12amountFunction(amountB12));
             });
+         amountB12 = 0;
         }
    }
 
-    function b12amountFunction() {
+    function b12amountFunction(amountB12) {
       return function() {
       text =$('#Text');
       text.empty();
