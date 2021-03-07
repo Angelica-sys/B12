@@ -9,7 +9,6 @@ $(document).ready(function() {
       var data = {};
       data.name = $('#newUser input[name=name]').val();
       data.id = $('#newUser input[name=id]').val();
-      console.log(data);
       $.ajax({
          method: "POST",
          url: "http://localhost:5000/api/v1/users/",
@@ -26,14 +25,11 @@ $(document).ready(function() {
 
   function putFoodItemToUser() {
     return function() {
-      console.log(idU);
-      console.log(nameU);
       var data = {};
       data.name = nameU;
       data.id = idU;
       var item = $('#newFooditem input[name=fooditem]').val();
       data.foodItems = [item];
-      console.log(data);
       $.ajax({
         method: "PUT",
         url: "http://localhost:5000/api/v1/users/" + idU,
@@ -63,7 +59,6 @@ $(document).ready(function() {
     return function() {
     var data = {};
     data.id = $('#deleteU input[name=id]').val();
-    console.log(data.id);
       $.ajax({
         method: "DELETE",
         url: 'http://localhost:5000/api/v1/users/' + data.id,
@@ -83,7 +78,6 @@ $(document).ready(function() {
         }).done(function (data) {
             list = $('#users');
             list.empty();
-
             for (i = 0; i < data.length; i++) {
                 html = '<li id="user_' + i + '">' + data[i]['name'] + '</li>';
                 list.append(html);
@@ -109,11 +103,9 @@ $(document).ready(function() {
                 nameUser.empty();
                 html = '<h3 id="nameUser_">' + userName + '</h3>';
                 nameUser.append(html);
-
                     for (i = 0; i < data.length; i++) {
                          html = '<li id="item_' + i + '">' + data[i]['foodItem'] + '</li>';
                          list.append(html);
-                         console.log(html);
                          console.log('Hämtat livsmedel');
                          var b12 = (data[i]['b12']).replace(",", ".");
                          amountB12 += parseFloat(b12);
@@ -121,7 +113,6 @@ $(document).ready(function() {
                           sumB12 = $('#B12');
                           sumB12.empty();
                           html = '<h3 id="B12_">' + "Tryck på knappen för att beräkna" + '</h3>';
-                          console.log(html);
                           sumB12.append(html);
                        $('#b12amount').click(b12amountFunction(amountB12));
             });
@@ -138,7 +129,6 @@ $(document).ready(function() {
       sumB12 = $('#B12');
       sumB12.empty();
       html = '<h3 id="B12_">' + amountB12 + '</h3>';
-      console.log(html);
       sumB12.append(html);
       }
     }

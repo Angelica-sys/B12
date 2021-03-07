@@ -14,7 +14,6 @@ public class ConnectingToDatabase {
     Connection connection = null;
 
     public ConnectingToDatabase() throws ClassNotFoundException {
-        count = 0;
         Class.forName("org.sqlite.JDBC");
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:b12.db");
@@ -41,16 +40,13 @@ public class ConnectingToDatabase {
     public void createTables() throws SQLException {
         try {
             Statement statement = connection.createStatement();
-            
 
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS user"
                     + "(id INTEGER PRIMARY KEY, user_name TEXT)");
 
-
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS item"
-                    + "(surregate_key INTEGER PRIMARY KEY, item_name TEXT, user_id INTEGER, b12 DOUBLE, " +
+                    + "(id INTEGER PRIMARY KEY AUTOINCREMENT, item_name TEXT, user_id INTEGER, b12 DOUBLE, " +
                     "FOREIGN KEY(user_id) REFERENCES user(id))");
-
 
             statement.close();
         } catch (SQLException e) {
@@ -86,13 +82,10 @@ public class ConnectingToDatabase {
         Statement statement = connection.createStatement();
         int id = user.getId();
         for (FoodItem item : user.getListOfFoodItem()) {
-            count++;
             String itemName = item.getNameOfItem();
-
             double b12 = item.getB12inFoodItem();
-            System.out.println("b12 adToTable: " + b12);
-            String sql2 = "INSERT INTO item (surregate_key, item_name, user_id, b12) "
-                    + "VALUES (" + count + ", '"
+            String sql2 = "INSERT INTO item (item_name, user_id, b12) "
+                    + "VALUES ('"
                     + itemName + "', "
                     + id + ", "
                     + b12 + ");";
@@ -101,7 +94,11 @@ public class ConnectingToDatabase {
         statement.close();
     }
 
-
+    /**
+     * Fetches a list of items.
+     *
+     * @return A user object with its items.
+     */
     public User fetchFromTableItem(int id) throws SQLException {
         User user = new User();
         try {
@@ -121,10 +118,6 @@ public class ConnectingToDatabase {
             statement.close();
         } catch (SQLException e) {
              e.printStackTrace();
-        }
-
-        for (FoodItem item : user.getListOfFoodItem()) {
-            System.out.println("b12 fetch: " + item.getB12inFoodItem());
         }
         return user;
     }

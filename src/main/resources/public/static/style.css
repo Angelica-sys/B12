@@ -20,12 +20,13 @@ li {
 label {
   display: inline-block;
   width: 150px;
+   font-family: 'Big Shoulders Text';
   font-weight: bold;
-  font-family: 'Big Shoulders Text';
-
+  font-size: 20px
 }
+
 form {
-  padding: 30px;
+  padding: 5px;
 }
 
 body {
@@ -59,7 +60,7 @@ ul {
   font-family: 'Big Shoulders Text';
   color: #000000;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 #REK {
@@ -72,14 +73,14 @@ ul {
   font-size: 20px;
   font-family: 'Big Shoulders Text';
   font-style: italic;
-  color: #638757;
+  color: #000000;
 }
 
 #infoAboutFoodItem {
   font-size: 20px;
   font-family: 'Big Shoulders Text';
   font-style: italic;
-  color: #638757;
+  color: #000000;
 }
 
 #nameUser {
