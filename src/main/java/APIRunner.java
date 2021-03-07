@@ -63,7 +63,7 @@ public class APIRunner {
         post("/api/v1/users/", (req, res) -> {
             try {
                 User user = gson.fromJson(req.body(), User.class);
-                System.out.println("user: " + user.getName() + " " + user.getId());
+                System.out.println("Post user: " + user.getName() + " " + user.getId());
                 connectingToDatabase.addToTableUser(user);
             } catch (Exception e) {
                 System.out.println(e);
@@ -74,10 +74,7 @@ public class APIRunner {
         put("/api/v1/users/:id", (req, res) -> {
             int id = Integer.parseInt(req.params("id"));
             User user = gbuilder.fromJson(req.body(), User.class);
-            System.out.println("user: " + user.getName() + " " + user.getId());
-            for (FoodItem item : user.getListOfFoodItem()) {
-                System.out.println("user: " + item.getB12inFoodItem());
-            }
+            System.out.println("Put user: " + user.getName() + " " + user.getId());
             connectingToDatabase.addToTableItem(user);
             res.type("application/json");
             return gbuilder.toJson("foodItem has been updated");

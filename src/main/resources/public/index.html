@@ -1,83 +1,88 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>B12</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="static/script.js" defer></script>
   	<link rel="stylesheet" type="text/css" href="static/style.css">
-
 	<meta charset="utf-8">
 </head>
+
 <body>
-<h1>B12 - Sånt som räknas!</h1>
-<p id = "Intro">Här är tjänsten för dig som vill ha koll på ditt vitamin B12-intag.
-	Allt du behöver göra är att registrera dig som användare och skriva in vad du ätit under en dag.
-    Titta sedan om du når upp till det rekommenderade dagliga intaget.
-</p>
-
-<table>
-	<tr>
-		<td>
-			<h2>Registrera ny användare</h2>
-			<form name="newUser" id="newUser">
-				<label for="name">Användarnamn:</label>
-				<input type="text" name="name"><br>
-				<label for="id">Id:</label>
-				<input type="text" name="id"><br>
-				<button type="button" id="postUser">Registrera konto</button>
-			</form>
-
-			<h2>Radera användare</h2>
-			<form name="deleteUser" id="deleteU">
-				<label for="id">Id:</label>
-				<input type="text" name="id"><br>
-				<button type="button" id="deleteUser">Radera konto</button>
-			</form>
-			<br>
-			<br>
-			<br>
-			<br>
-		</td>
-
-		<td id="list">
-			<h2 id="username">Välj användare</h2>
-			<ul id="users">
-			</ul>
-		</td>
-
-		<td id="item_List">
-			<h2>Vald användare: </h2>
-			<h3 id="nameUser">ingen användare vald</h3>
-			<br>
-			<h2>Lägg till livsmedel</h2>
-			<form name="newFooditem" id="newFooditem">
-				<label for="fooditem">Sök efter livsmedel (per 100g): </label>
-				<select name="fooditem" id="cars">
-					<option value="volvo">Olivolja</option>
-					<option value="saab">Köttfärslåda</option>
-					<option value="mercedes">Äggstanning</option>
-					<option value="audi">Cowboysoppa m. potatis köttfärs</option>
-				</select>
-				<input type="text" name="fooditem">
+	<h1>B12 - Sånt som räknas!</h1>
+	<p id = "Intro">Här är tjänsten för dig som vill ha koll på ditt vitamin B12-intag.
+		Allt du behöver göra är att registrera dig som användare och skriva in vad du ätit under en dag. <br>
+    	Titta sedan om du når upp till det rekommenderade dagliga intaget.
+	</p>
+	<table>
+		<tr>
+			<td>
+				<h2>Registrera ny användare</h2>
+				<form name="newUser" id="newUser">
+					<label for="name">Användarnamn:</label>
+					<input type="text" name="name"><br>
+					<label for="id">Id:</label>
+					<input type="text" name="id"><br>
+					<button type="button" id="postUser">Registrera konto</button>
+				</form>
 				<br>
-				<button type="button" id="putFoodItemToUser">Lägg till</button>
-			</form>
-			<p id ="">För att uppdatera dina livsmedel så tryck på dit namn i listan av användare</p>
-			<h2>Dina livsmedel:</h2>
-			<ul id="item"></ul>
-			<br>
-			<button type="button" id="b12amount">Beräkna ditt sammanlagda värde av vitamin B12</button>
-			<p id="Text"></p> <h3 id="B12" >Ingen uträkning</h3>
-			<p id ="REK">Rekommenderat intag per dag är 2.0 mikrogram</p>
-		</td>
+				<h2>Radera användare</h2>
+				<form name="deleteUser" id="deleteU">
+					<label for="id">Id:</label>
+					<input type="text" name="id"><br>
+					<button type="button" id="deleteUser">Radera konto</button>
+				</form>
+			</td>
+
+			<td id="list">
+				<h2 id="username">Välj användare</h2>
+				<ul id="users"></ul>
+			</td>
+
+			<td id="item_List">
+				<h2>Vald användare: </h2>
+				<h3 id="nameUser">Ingen användare vald</h3>
+				<h2>Lägg till livsmedel</h2>
+				<form name="newFooditem" id="newFooditem">
+					<label for="fooditem">Sök efter livsmedel (per 100g): </label>
+					<input type="text" name="fooditem">
+					<button type="button" id="putFoodItemToUser">Lägg till</button>
+				</form>
+
+				<p id ="">För att uppdatera dina livsmedel så tryck på dit namn i listan av användare</p>
+				<h2>Dina livsmedel:</h2>
+				<ul id="item"></ul>
+				<button type="button" id="b12amount">Beräkna ditt sammanlagda värde av vitamin B12</button>
+				<h2>Ditt intag av vitamin B12:</h2>
+				<p id="Text"></p> <h3 id="B12" >Ingen uträkning</h3>
+				<p id ="REK">Rekommenderat intag per dag är 2.0 mikrogram</p>
+			</td>
+		</tr>
+	</table>
 		<h2>Livsmedel att söka på</h2>
-			<p id ="infoAboutFoodItem">Äggstanning, Vindruvor röda, Kycklingpanna m. lime honung crème fraiche,
-				Chili- och mangosås, Gratäng m. kassler ananas ost, Gryta fisk m. crème fraiche curry apelsin, Grönsaksburgare stekt veg.,
-				Svampproteinfärssås veg., Gryta svampprotein m. persika veg., Gryta indisk lammgryta, Sojafärssås veg., Lasagne m. grönsaker veg.,
-				Grönsaksbas grönsakspasta, Tomatsås m. grädde, Morotssås, Ajvar- och spenatsås, Paprika grillad, Lasagne m. keso veg., Paj m. fetaost sötpotatis veg.,
-				Grynblandning havre råg vete korn kokt m. salt, Soppa m. kokosmjölk blomkål potatis spenat veg., Sötpotatissoppa m. linser chili kokosmjölk veg.
-			</p>
-	</tr>
-</table>
+		<p id ="infoAboutFoodItem">Äggstanning	<br>
+		Vindruvor röda	<br>
+		Kycklingpanna m. lime honung crème fraiche <br>
+		Chili- och mangosås <br>
+		Gratäng m. kassler ananas ost <br>
+		Gryta fisk m. crème fraiche curry apelsin <br>
+		Grönsaksburgare stekt veg. <br>
+		Svampproteinfärssås veg. <br>
+		Gryta svampprotein m. persika veg.<br>
+		Gryta indisk lammgryta <br>
+		Sojafärssås veg. <br>
+		Grönsaksbas grönsakspasta <br>
+		Tomatsås m. grädde <br>
+		Morotssås <br>
+		Ajvar- och spenatsås <br>
+		Paprika grillad <br>
+		Lasagne m. keso veg. <br>
+		Paj m. fetaost sötpotatis veg. <br>
+		Grynblandning havre råg vete korn kokt m. salt <br>
+		Soppa m. kokosmjölk blomkål potatis spenat veg. <br>
+		Sötpotatissoppa m. linser chili kokosmjölk veg.
+	</p>
 </body>
+
 </html>
