@@ -64,7 +64,7 @@ $(document).ready(function() {
         url: 'http://localhost:5000/api/v1/users/' + data.id,
         })
         .done(function(result) {
-         console.log('Raderat användare' + data.id);
+         console.log('Raderat användare:' + data.id);
          updateUserList();
       });
     }
@@ -101,19 +101,19 @@ $(document).ready(function() {
                 list.empty();
                 nameUser = $('#nameUser');
                 nameUser.empty();
-                html = '<h3 id="nameUser_">' + userName + '</h3>';
+                html = '<h3 id="nameUser_">' + userName + ', id: ' + userId + '</h3>';
                 nameUser.append(html);
                     for (i = 0; i < data.length; i++) {
                          html = '<li id="item_' + i + '">' + data[i]['foodItem'] + '</li>';
                          list.append(html);
-                         console.log('Hämtat livsmedel');
+                         console.log('Hämtat livsmedel:');
                          var b12 = (data[i]['b12']).replace(",", ".");
                          amountB12 += parseFloat(b12);
                     }
-                          sumB12 = $('#B12');
-                          sumB12.empty();
-                          html = '<h3 id="B12_">' + "Tryck på knappen för att beräkna" + '</h3>';
-                          sumB12.append(html);
+                        sumB12 = $('#B12');
+                        sumB12.empty();
+                        html = '<h3 id="B12_">' + "Tryck på knappen för att beräkna" + '</h3>';
+                        sumB12.append(html);
                        $('#b12amount').click(b12amountFunction(amountB12));
             });
          amountB12 = 0;
